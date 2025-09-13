@@ -5,7 +5,7 @@ Data readers for various file formats to support data-driven testing.
 import csv
 import json
 import logging
-from collections.abc import Iterator
+from collections.abc import Callable, Iterator
 from pathlib import Path
 from typing import Any
 
@@ -233,7 +233,7 @@ def load_test_data(
 def parametrize_from_file(
     file_path: str | Path,
     id_field: str | None = None,
-    filter_func: callable | None = None,
+    filter_func: Callable | None = None,
 ) -> list[tuple[str, dict[str, Any]]]:
     """
     Load test data for pytest parametrization.
@@ -329,7 +329,7 @@ class DataProvider:
         self._cache: dict[str, list[dict[str, Any]]] = {}
 
     def get_data(
-        self, filename: str, use_cache: bool = True, filter_func: callable | None = None
+        self, filename: str, use_cache: bool = True, filter_func: Callable | None = None
     ) -> list[dict[str, Any]]:
         """
         Get test data from a file.
@@ -361,7 +361,7 @@ class DataProvider:
         self,
         filename: str,
         id_field: str | None = None,
-        filter_func: callable | None = None,
+        filter_func: Callable | None = None,
     ) -> list[tuple[str, dict[str, Any]]]:
         """Get parametrized test data for pytest."""
         data = self.get_data(filename, filter_func=filter_func)
