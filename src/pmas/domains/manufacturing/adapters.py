@@ -83,7 +83,9 @@ class ManufacturingLoginAdapter:
         self, credentials: ManufacturingUserCredentials
     ) -> BaseManufacturingPage | None:
         """Login with specific credentials."""
-        logger.info(f"Logging in with manufacturing credentials: {credentials.username}")
+        logger.info(
+            f"Logging in with manufacturing credentials: {credentials.username}"
+        )
         self.login_page.navigate_to_manufacturing_login()
         return self.login_page.login(credentials.username, credentials.password)
 

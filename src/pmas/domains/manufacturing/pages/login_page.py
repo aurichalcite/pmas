@@ -4,7 +4,7 @@ Manufacturing manufacturing login page object with domain-specific login functio
 
 import logging
 import os
-from typing import Optional
+from typing import Any, Optional
 
 from ....core.locators import by_id, by_link_text
 from ..constants import (
@@ -16,7 +16,7 @@ from ..constants import (
     USER_MANAGER,
     USER_PLANNER,
 )
-from .base_furniture_page import BaseManufacturingPage
+from .base_manufacturing_page import BaseManufacturingPage
 
 logger = logging.getLogger(__name__)
 
@@ -47,7 +47,7 @@ class ManufacturingLoginPage(BaseManufacturingPage):
         super().__init__(driver, base_url, timeout)
 
     def verify_page_loaded(self) -> bool:
-        """Verify that the furniture manufacturing login page has loaded correctly."""
+        """Verify that the manufacturing manufacturing login page has loaded correctly."""
         try:
             # Check for login form elements
             login_button = self.get_button(self.LOGIN_SUBMIT)
@@ -67,7 +67,7 @@ class ManufacturingLoginPage(BaseManufacturingPage):
         self, username: str, password: str, expect_valid: bool = True
     ) -> Optional["BaseManufacturingPage"]:
         """
-        Perform login with given credentials for furniture manufacturing system.
+        Perform login with given credentials for manufacturing manufacturing system.
 
         Args:
             username: Username to login with
@@ -77,7 +77,7 @@ class ManufacturingLoginPage(BaseManufacturingPage):
         Returns:
             Landing page object if successful, None if failed as expected
         """
-        logger.info(f"Attempting furniture manufacturing login as: {username}")
+        logger.info(f"Attempting manufacturing manufacturing login as: {username}")
 
         try:
             # Fill login form
@@ -102,7 +102,9 @@ class ManufacturingLoginPage(BaseManufacturingPage):
             # Check for password expiration
             if "password" in self.title.lower() and "expired" in self.title.lower():
                 if expect_valid:
-                    logger.warning(f"Password expired for furniture user: {username}")
+                    logger.warning(
+                        f"Password expired for manufacturing user: {username}"
+                    )
                     return None
                 else:
                     return None
@@ -142,17 +144,17 @@ class ManufacturingLoginPage(BaseManufacturingPage):
 
     def login_production_planner(self) -> Optional["BaseManufacturingPage"]:
         """Login as production planner."""
-        username, password = self._get_furniture_credentials(USER_PLANNER)
+        username, password = self._get_manufacturing_credentials(USER_PLANNER)
         return self.login(username, password, True)
 
     def login_factory_manager(self) -> Optional["BaseManufacturingPage"]:
         """Login as factory manager."""
-        username, password = self._get_furniture_credentials(USER_MANAGER)
+        username, password = self._get_manufacturing_credentials(USER_MANAGER)
         return self.login(username, password, True)
 
     def login_production_coordinator(self) -> Optional["BaseManufacturingPage"]:
         """Login as Production Coordinator."""
-        username, password = self._get_furniture_credentials(USER_COORDINATOR)
+        username, password = self._get_manufacturing_credentials(USER_COORDINATOR)
         return self.login(username, password, True)
 
     def login_retail_partner(
@@ -182,11 +184,11 @@ class ManufacturingLoginPage(BaseManufacturingPage):
             username: Username to attempt login with
             attempts: Number of failed attempts to make
         """
-        wrong_password = "wrong_furniture_password_123"
+        wrong_password = "wrong_manufacturing_password_123"
 
         for attempt in range(attempts):
             logger.info(
-                f"Failed furniture manufacturing login attempt {attempt + 1} for user: {username}"
+                f"Failed manufacturing manufacturing login attempt {attempt + 1} for user: {username}"
             )
             result = self.login(username, wrong_password, expect_valid=False)
 
@@ -199,9 +201,9 @@ class ManufacturingLoginPage(BaseManufacturingPage):
 
         return None
 
-    def _get_furniture_credentials(self, user_type: int) -> tuple[str, str]:
+    def _get_manufacturing_credentials(self, user_type: int) -> tuple[str, str]:
         """
-        Get credentials for a specific furniture manufacturing user type based on environment.
+        Get credentials for a specific manufacturing manufacturing user type based on environment.
 
         Args:
             user_type: Type of user (USER_PLANNER, USER_MANAGER, etc.)
@@ -215,7 +217,7 @@ class ManufacturingLoginPage(BaseManufacturingPage):
 
         if env_user and env_password:
             logger.info(
-                "Using furniture manufacturing credentials from environment variables"
+                "Using manufacturing manufacturing credentials from environment variables"
             )
             return env_user, env_password
 
@@ -229,7 +231,7 @@ class ManufacturingLoginPage(BaseManufacturingPage):
         else:
             # Production or unknown environment
             raise ValueError(
-                f"No default furniture manufacturing credentials for environment: {environment}"
+                f"No default manufacturing manufacturing credentials for environment: {environment}"
             )
 
         if user_type < len(users):
@@ -242,13 +244,15 @@ class ManufacturingLoginPage(BaseManufacturingPage):
             return users[0]
 
     def _handle_successful_login(self, username: str) -> "BaseManufacturingPage":
-        """Handle successful furniture manufacturing login and return appropriate landing page."""
-        logger.info(f"Manufacturing manufacturing login successful for user: {username}")
+        """Handle successful manufacturing manufacturing login and return appropriate landing page."""
+        logger.info(
+            f"Manufacturing manufacturing login successful for user: {username}"
+        )
 
         # Get user info from the page
         factory, logged_user = self.get_logged_factory_user()
         logger.info(
-            f"Landed on furniture manufacturing page {self.title} as user: {logged_user}"
+            f"Landed on manufacturing manufacturing page {self.title} as user: {logged_user}"
         )
 
         # Verify the logged user matches what we expected
@@ -261,7 +265,7 @@ class ManufacturingLoginPage(BaseManufacturingPage):
         return self
 
     def _handle_page_not_found(self, username: str) -> "BaseManufacturingPage":
-        """Handle the case where furniture user lands on 'Page not found'."""
+        """Handle the case where manufacturing user lands on 'Page not found'."""
         logger.warning(
             f"Manufacturing user {username} landed on 'Page not found'; navigating to Reference page"
         )
@@ -276,24 +280,24 @@ class ManufacturingLoginPage(BaseManufacturingPage):
             return self
 
         except Exception as e:
-            logger.error(f"Failed to handle furniture page not found: {e}")
+            logger.error(f"Failed to handle manufacturing page not found: {e}")
             return self
 
     def handle_certificate_error(self) -> None:
-        """Handle SSL certificate errors in IE for furniture manufacturing system."""
+        """Handle SSL certificate errors in IE for manufacturing manufacturing system."""
         if self.title == "Certificate Error: Navigation Blocked":
             logger.info(
-                "Handling SSL certificate error for furniture manufacturing system (IE)"
+                "Handling SSL certificate error for manufacturing manufacturing system (IE)"
             )
             try:
                 # Execute JavaScript to override certificate warning
                 self.execute_script("document.getElementById('overridelink').click();")
                 self.wait_for_page_load()
             except Exception as e:
-                logger.warning(f"Failed to handle furniture certificate error: {e}")
+                logger.warning(f"Failed to handle manufacturing certificate error: {e}")
 
-    def navigate_to_furniture_login(self) -> "ManufacturingLoginPage":
-        """Navigate to the furniture manufacturing login page."""
+    def navigate_to_manufacturing_login(self) -> "ManufacturingLoginPage":
+        """Navigate to the manufacturing manufacturing login page."""
         self.navigate_to()
         self.handle_certificate_error()
         self.wait_for_page_load()
@@ -301,7 +305,7 @@ class ManufacturingLoginPage(BaseManufacturingPage):
 
     def check_factory_system_status(self) -> dict[str, Any]:
         """
-        Check the status of the furniture manufacturing system.
+        Check the status of the manufacturing manufacturing system.
 
         Returns:
             Dictionary with system status information
@@ -315,5 +319,5 @@ class ManufacturingLoginPage(BaseManufacturingPage):
                 "active_users": 45,
             }
         except Exception as e:
-            logger.error(f"Failed to check furniture system status: {e}")
+            logger.error(f"Failed to check manufacturing system status: {e}")
             return {"system_status": "UNKNOWN", "error": str(e)}

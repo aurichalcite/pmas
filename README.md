@@ -168,7 +168,7 @@ PMAS follows a layered architecture that promotes separation of concerns and mai
 ┌─────────────────────────────────────────────────────────────┐
 │                     Domain Layer                            │
 │  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────┐  │
-│  │   Aviation      │  │   Furniture     │  │   Custom    │  │
+│  │   Aviation      │  │   Manufacturing     │  │   Custom    │  │
 │  │   Domain        │  │   Domain        │  │   Domain    │  │
 │  └─────────────────┘  └─────────────────┘  └─────────────┘  │
 └─────────────────────────────────────────────────────────────┘
@@ -200,7 +200,7 @@ PMAS follows a layered architecture that promotes separation of concerns and mai
 ### Domain Adapters
 
 - **Aviation**: Flight planning, weather briefings, and aviation workflows
-- **Furniture**: Production planning, quality control, and manufacturing processes
+- **Manufacturing**: Production planning, quality control, and manufacturing processes
 - **Extensible**: Template and patterns for creating new domain adapters
 
 ## 📚 Examples
@@ -244,12 +244,12 @@ flight_data = FlightPlanData(
 result = flight_adapter.create_flight_plan(flight_data)
 ```
 
-#### Furniture Domain
+#### Manufacturing Domain
 ```python
-from pmas.domains.furniture import FurnitureLoginAdapter, ProductionOrderAdapter
+from pmas.domains.manufacturing import ManufacturingLoginAdapter, ProductionOrderAdapter
 
 # Login and create production order
-login_adapter = FurnitureLoginAdapter(driver, config)
+login_adapter = ManufacturingLoginAdapter(driver, config)
 production_adapter = ProductionOrderAdapter(driver, config)
 
 # Login as production planner
