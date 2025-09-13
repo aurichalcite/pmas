@@ -1,0 +1,33 @@
+# PMAS Configuration for SauceDemo Examples
+# This file demonstrates how to configure PMAS for testing the SauceDemo application
+
+[environment]
+base_url = "https://www.saucedemo.com"
+name = "saucedemo"
+
+[browser]
+name = "chrome"
+headless = false
+window_size = [1920, 1080]
+implicit_wait = 10.0
+
+[webdriver]
+timeout = 30.0
+page_load_timeout = 30.0
+script_timeout = 30.0
+
+[test]
+default_timeout = 10.0
+screenshot_on_failure = true
+capture_logs_on_failure = true
+soft_assertions = true
+
+[logging]
+level = "INFO"
+format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+file_path = "logs/pmas_saucedemo.log"
+
+[reporting]
+screenshots_dir = "reports/screenshots"
+logs_dir = "reports/logs"
+allure_results_dir = "reports/allure-results"

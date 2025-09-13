@@ -1,0 +1,346 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+env:
+  PYTHON_DEFAULT_VERSION: "3.11"
+
+jobs:
+  lint-and-format:
+    name: Lint and Format Check
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_DEFAULT_VERSION }}
+    
+    - name: Install uv
+      uses: astral-sh/setup-uv@v2
+      with:
+        version: "latest"
+    
+    - name: Install dependencies
+      run: |
+        uv sync --dev
+    
+    - name: Run ruff linting
+      run: |
+        uv run ruff check src/ tests/
+    
+    - name: Run ruff formatting check
+      run: |
+        uv run ruff format --check src/ tests/
+
+  type-check:
+    name: Type Check
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_DEFAULT_VERSION }}
+    
+    - name: Install uv
+      uses: astral-sh/setup-uv@v2
+      with:
+        version: "latest"
+    
+    - name: Install dependencies
+      run: |
+        uv sync --dev
+    
+    - name: Run mypy type checking
+      run: |
+        uv run mypy src/
+
+  test:
+    name: Test Suite
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ["3.11", "3.12"]
+        
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Install uv
+      uses: astral-sh/setup-uv@v2
+      with:
+        version: "latest"
+    
+    - name: Install dependencies
+      run: |
+        uv sync --dev
+    
+    - name: Install Chrome (Ubuntu)
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y google-chrome-stable
+    
+    - name: Install Chrome (macOS)
+      if: matrix.os == 'macos-latest'
+      run: |
+        brew install --cask google-chrome
+    
+    - name: Install Chrome (Windows)
+      if: matrix.os == 'windows-latest'
+      run: |
+        choco install googlechrome
+    
+    - name: Run unit tests
+      run: |
+        uv run pytest tests/unit/ -v --tb=short --cov=src/pmas --cov-report=xml --cov-report=term-missing
+    
+    - name: Run integration tests (headless)
+      run: |
+        uv run pytest tests/integration/ -v --tb=short --headless
+      env:
+        PMAS_BROWSER_HEADLESS: "true"
+        PMAS_TEST_TIMEOUT: "30"
+    
+    - name: Upload coverage to Codecov
+      if: matrix.os == 'ubuntu-latest' && matrix.python-version == env.PYTHON_DEFAULT_VERSION
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_DEFAULT_VERSION }}
+    
+    - name: Install uv
+      uses: astral-sh/setup-uv@v2
+      with:
+        version: "latest"
+    
+    - name: Install dependencies
+      run: |
+        uv sync --dev
+    
+    - name: Run bandit security scan
+      run: |
+        uv run bandit -r src/ -f json -o bandit-report.json
+      continue-on-error: true
+    
+    - name: Upload bandit report
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: bandit-report
+        path: bandit-report.json
+
+  dependency-check:
+    name: Dependency Check
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_DEFAULT_VERSION }}
+    
+    - name: Install uv
+      uses: astral-sh/setup-uv@v2
+      with:
+        version: "latest"
+    
+    - name: Install dependencies
+      run: |
+        uv sync --dev
+    
+    - name: Check for known security vulnerabilities
+      run: |
+        uv run safety check --json --output safety-report.json
+      continue-on-error: true
+    
+    - name: Upload safety report
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: safety-report
+        path: safety-report.json
+
+  build-and-test-package:
+    name: Build and Test Package
+    runs-on: ubuntu-latest
+    needs: [lint-and-format, type-check]
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_DEFAULT_VERSION }}
+    
+    - name: Install uv
+      uses: astral-sh/setup-uv@v2
+      with:
+        version: "latest"
+    
+    - name: Build package
+      run: |
+        uv build
+    
+    - name: Test package installation
+      run: |
+        # Create a fresh virtual environment and test installation
+        python -m venv test_env
+        source test_env/bin/activate
+        pip install dist/*.whl
+        python -c "import pmas; print(f'PMAS version: {pmas.__version__}')"
+    
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: dist
+        path: dist/
+
+  example-tests:
+    name: Example Tests
+    runs-on: ubuntu-latest
+    needs: [build-and-test-package]
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_DEFAULT_VERSION }}
+    
+    - name: Install uv
+      uses: astral-sh/setup-uv@v2
+      with:
+        version: "latest"
+    
+    - name: Install dependencies
+      run: |
+        uv sync --dev
+    
+    - name: Install Chrome
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y google-chrome-stable
+    
+    - name: Run SauceDemo example tests
+      run: |
+        cd src/pmas/examples/demo_site
+        uv run pytest tests/ -v --tb=short --headless
+      env:
+        PMAS_BROWSER_HEADLESS: "true"
+        PMAS_TEST_TIMEOUT: "30"
+
+  documentation:
+    name: Documentation Check
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_DEFAULT_VERSION }}
+    
+    - name: Install uv
+      uses: astral-sh/setup-uv@v2
+      with:
+        version: "latest"
+    
+    - name: Install dependencies
+      run: |
+        uv sync --dev
+    
+    - name: Check documentation build
+      run: |
+        # Add documentation build command when available
+        echo "Documentation check placeholder"
+    
+    - name: Validate README
+      run: |
+        # Check that README.md exists and has basic content
+        test -f README.md
+        grep -q "PMAS" README.md
+        grep -q "installation" README.md || grep -q "Installation" README.md
+
+  release-check:
+    name: Release Readiness Check
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [test, security-scan, dependency-check, example-tests]
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Fetch full history for changelog generation
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_DEFAULT_VERSION }}
+    
+    - name: Install uv
+      uses: astral-sh/setup-uv@v2
+      with:
+        version: "latest"
+    
+    - name: Check version consistency
+      run: |
+        # Extract version from pyproject.toml and __init__.py
+        PYPROJECT_VERSION=$(grep '^version = ' pyproject.toml | sed 's/version = "\(.*\)"/\1/')
+        INIT_VERSION=$(python -c "import sys; sys.path.insert(0, 'src'); import pmas; print(pmas.__version__)")
+        
+        echo "pyproject.toml version: $PYPROJECT_VERSION"
+        echo "__init__.py version: $INIT_VERSION"
+        
+        if [ "$PYPROJECT_VERSION" != "$INIT_VERSION" ]; then
+          echo "Version mismatch between pyproject.toml and __init__.py"
+          exit 1
+        fi
+    
+    - name: Generate changelog
+      run: |
+        echo "## Release Readiness Report" > release-report.md
+        echo "- All tests passed ✅" >> release-report.md
+        echo "- Security scan completed ✅" >> release-report.md
+        echo "- Dependencies checked ✅" >> release-report.md
+        echo "- Examples validated ✅" >> release-report.md
+        echo "- Version consistency verified ✅" >> release-report.md
+    
+    - name: Upload release report
+      uses: actions/upload-artifact@v3
+      with:
+        name: release-report
+        path: release-report.md
