@@ -18,6 +18,7 @@ from selenium.common.exceptions import (
     StaleElementReferenceException,
     TimeoutException,
 )
+from selenium.webdriver.common.by import By
 
 from pmas.core.elements import (
     BaseElement,
@@ -485,3 +486,90 @@ class TestRadioButtonElement:
 
         assert radio.is_selected is True
         mock_web_element.is_selected.assert_called_once()
+
+
+class TestElementsBranchCoverage:
+    """Test specific conditional branches to improve branch coverage."""
+
+    def test_base_element_is_stale_when_element_none_expects_false(self):
+        """Test _is_stale returns False when element is None."""
+        mock_driver = Mock()
+        mock_locator = Mock()
+        mock_locator.selenium_locator = (By.ID, "test-element")
+
+        element = BaseElement(mock_driver, mock_locator)
+        element._element = None
+
+        result = element._is_stale()
+
+        assert result is False
+
+    def test_base_element_is_stale_when_element_not_stale_expects_false(self):
+        """Test _is_stale returns False when element is not stale."""
+        mock_driver = Mock()
+        mock_locator = Mock()
+        mock_locator.selenium_locator = (By.ID, "test-element")
+        mock_element = Mock()
+        mock_element.tag_name = "div"  # No exception raised
+
+        element = BaseElement(mock_driver, mock_locator)
+        element._element = mock_element
+
+        result = element._is_stale()
+
+        assert result is False
+
+    def test_base_element_is_stale_when_stale_element_expects_true(self):
+        """Test _is_stale returns True when element is stale."""
+        from selenium.common.exceptions import StaleElementReferenceException
+
+        mock_driver = Mock()
+        mock_locator = Mock()
+        mock_locator.selenium_locator = (By.ID, "test-element")
+        mock_element = Mock()
+
+        # Configure the tag_name property to raise StaleElementReferenceException
+        type(mock_element).tag_name = PropertyMock(
+            side_effect=StaleElementReferenceException()
+        )
+
+        element = BaseElement(mock_driver, mock_locator)
+        element._element = mock_element
+
+        result = element._is_stale()
+
+        assert result is True
+
+    def test_wait_for_clickable_when_timeout_provided_expects_custom_timeout(self):
+        """Test wait_for_clickable uses provided timeout instead of default."""
+        with patch("pmas.core.elements.WebDriverWait") as mock_wait:
+            mock_driver = Mock()
+            mock_locator = Mock()
+            mock_locator.selenium_locator = (By.ID, "test-element")
+            mock_wait_instance = Mock()
+            mock_wait.return_value = mock_wait_instance
+
+            element = BaseElement(mock_driver, mock_locator, timeout=10.0)
+
+            result = element.wait_for_clickable(timeout=5.0)
+
+            # Should use provided timeout (5.0), not default (10.0)
+            mock_wait.assert_called_once_with(mock_driver, 5.0)
+            assert result == element
+
+    def test_wait_for_clickable_when_no_timeout_expects_default_timeout(self):
+        """Test wait_for_clickable uses default timeout when none provided."""
+        with patch("pmas.core.elements.WebDriverWait") as mock_wait:
+            mock_driver = Mock()
+            mock_locator = Mock()
+            mock_locator.selenium_locator = (By.ID, "test-element")
+            mock_wait_instance = Mock()
+            mock_wait.return_value = mock_wait_instance
+
+            element = BaseElement(mock_driver, mock_locator, timeout=15.0)
+
+            result = element.wait_for_clickable()
+
+            # Should use default timeout (15.0)
+            mock_wait.assert_called_once_with(mock_driver, 15.0)
+            assert result == element

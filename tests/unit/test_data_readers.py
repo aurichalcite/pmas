@@ -482,3 +482,93 @@ class TestDataProvider:
 
         # Should return only supported file types that are actual files
         assert len(result) == 3
+
+
+class TestDataReadersBranchCoverage:
+    """Test specific conditional branches to improve branch coverage."""
+
+    @patch("pmas.data.readers.load_json")
+    def test_load_test_data_when_json_invalid_type_expects_validation_error(
+        self, mock_load_json
+    ):
+        """Test that JSON with invalid type (not dict or list) raises ValidationError."""
+        mock_load_json.return_value = "invalid_type"  # String instead of dict/list
+
+        with pytest.raises(ValidationError) as exc_info:
+            load_test_data("test.json")
+
+        assert "JSON file must contain a list or dictionary" in str(exc_info.value)
+
+    @patch("pmas.data.readers.load_yaml")
+    def test_load_test_data_when_yaml_invalid_type_expects_validation_error(
+        self, mock_load_yaml
+    ):
+        """Test that YAML with invalid type (not dict or list) raises ValidationError."""
+        mock_load_yaml.return_value = 42  # Integer instead of dict/list
+
+        with pytest.raises(ValidationError) as exc_info:
+            load_test_data("test.yaml")
+
+        assert "YAML file must contain a list or dictionary" in str(exc_info.value)
+
+    @patch("pmas.data.readers.load_yaml")
+    def test_load_test_data_when_yaml_dict_expects_list_conversion(
+        self, mock_load_yaml
+    ):
+        """Test that YAML dict is converted to list."""
+        mock_load_yaml.return_value = {"test": "data"}
+
+        result = load_test_data("test.yaml")
+
+        assert result == [{"test": "data"}]
+
+    @patch("pmas.data.readers.load_yaml")
+    def test_load_test_data_when_yaml_list_expects_unchanged(self, mock_load_yaml):
+        """Test that YAML list is returned unchanged."""
+        mock_load_yaml.return_value = [{"test": "data1"}, {"test": "data2"}]
+
+        result = load_test_data("test.yaml")
+
+        assert result == [{"test": "data1"}, {"test": "data2"}]
+
+    @patch("pmas.data.readers.load_test_data")
+    def test_get_data_when_filter_func_provided_expects_filtered_results(
+        self, mock_load_test_data
+    ):
+        """Test DataProvider.get_data with filter function."""
+        mock_load_test_data.return_value = [
+            {"name": "test1", "active": True},
+            {"name": "test2", "active": False},
+            {"name": "test3", "active": True},
+        ]
+
+        provider = DataProvider("test_data")
+        filter_func = lambda item: item["active"]
+
+        result = provider.get_data("test.csv", filter_func=filter_func)
+
+        expected = [
+            {"name": "test1", "active": True},
+            {"name": "test3", "active": True},
+        ]
+        assert result == expected
+
+    @patch("pmas.data.readers.load_test_data")
+    def test_get_data_when_no_filter_func_expects_unfiltered_results(
+        self, mock_load_test_data
+    ):
+        """Test DataProvider.get_data without filter function."""
+        mock_load_test_data.return_value = [
+            {"name": "test1", "active": True},
+            {"name": "test2", "active": False},
+        ]
+
+        provider = DataProvider("test_data")
+
+        result = provider.get_data("test.csv", filter_func=None)
+
+        expected = [
+            {"name": "test1", "active": True},
+            {"name": "test2", "active": False},
+        ]
+        assert result == expected

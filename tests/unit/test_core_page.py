@@ -356,3 +356,115 @@ class TestBasePageAbstractMethods:
 
         with pytest.raises(TypeError):
             BasePage(mock_driver, "https://example.com", 10.0)
+
+
+class TestBasePageBranchCoverage:
+    """Test specific conditional branches to improve branch coverage."""
+
+    def test_url_property_when_url_path_empty_expects_base_url_only(self):
+        """Test url property returns base_url when url_path is empty."""
+        mock_driver = Mock()
+
+        # Create a page with empty url_path
+        class EmptyPathPage(BasePage):
+            url_path = ""  # Empty path
+
+            def verify_page_loaded(self) -> bool:
+                return True
+
+        page = EmptyPathPage(mock_driver, "https://example.com", 10.0)
+
+        result = page.url
+
+        assert result == "https://example.com"
+
+    def test_url_property_when_url_path_has_leading_slash_expects_stripped(self):
+        """Test url property strips leading slash from url_path."""
+        mock_driver = Mock()
+
+        class LeadingSlashPage(BasePage):
+            url_path = "/test-page"  # Leading slash
+
+            def verify_page_loaded(self) -> bool:
+                return True
+
+        page = LeadingSlashPage(mock_driver, "https://example.com", 10.0)
+
+        result = page.url
+
+        assert result == "https://example.com/test-page"
+
+    def test_wait_for_page_load_when_no_expected_titles_expects_document_ready_only(
+        self,
+    ):
+        """Test wait_for_page_load skips title check when no expected_titles."""
+        mock_driver = Mock()
+        mock_driver.execute_script.return_value = "complete"
+
+        class NoTitlesPage(BasePage):
+            url_path = "test"
+            expected_titles = []  # No expected titles
+
+            def verify_page_loaded(self) -> bool:
+                return True
+
+        page = NoTitlesPage(mock_driver, "https://example.com", 10.0)
+
+        with patch("pmas.core.page.WebDriverWait") as mock_wait:
+            mock_wait_instance = Mock()
+            mock_wait.return_value = mock_wait_instance
+
+            result = page.wait_for_page_load()
+
+            # Should only create one WebDriverWait for document ready, not for title
+            assert mock_wait.call_count == 1
+            assert result == page
+
+    def test_wait_for_page_load_when_timeout_provided_expects_custom_timeout(self):
+        """Test wait_for_page_load uses provided timeout instead of default."""
+        mock_driver = Mock()
+        mock_driver.title = "Expected Title"
+        mock_driver.execute_script.return_value = "complete"
+
+        page = ConcretePage(mock_driver, "https://example.com", 10.0)
+
+        with patch("pmas.core.page.WebDriverWait") as mock_wait:
+            mock_wait_instance = Mock()
+            mock_wait.return_value = mock_wait_instance
+
+            result = page.wait_for_page_load(timeout=5.0)
+
+            # Should use provided timeout (5.0), not default (10.0)
+            # Called twice: once for title check, once for document ready
+            assert mock_wait.call_count == 2
+            mock_wait.assert_any_call(mock_driver, 5.0)
+            assert result == page
+
+    def test_wait_for_page_load_when_document_ready_timeout_expects_warning_logged(
+        self,
+    ):
+        """Test wait_for_page_load logs warning when document ready times out."""
+        from selenium.common.exceptions import TimeoutException
+
+        mock_driver = Mock()
+        mock_driver.title = "Expected Title"
+
+        page = ConcretePage(mock_driver, "https://example.com", 10.0)
+
+        with (
+            patch("pmas.core.page.WebDriverWait") as mock_wait,
+            patch("pmas.core.page.logger") as mock_logger,
+        ):
+            mock_wait_instance = Mock()
+            mock_wait.return_value = mock_wait_instance
+
+            # First call (title check) succeeds, second call (document ready) times out
+            mock_wait_instance.until.side_effect = [None, TimeoutException()]
+
+            result = page.wait_for_page_load()
+
+            # Should log warning about document ready timeout
+            mock_logger.warning.assert_called_once_with(
+                "Page did not reach complete ready state within timeout"
+            )
+            assert result == page

@@ -324,3 +324,87 @@ class TestDriverFactoryIntegration:
         mock_remote.assert_called_once()
         call_args = mock_remote.call_args
         assert call_args[1]["command_executor"] == "http://selenium-grid:4444/wd/hub"
+
+
+class TestDriverFactoryBranchCoverage:
+    """Test specific conditional branches to improve branch coverage."""
+
+    def test_create_driver_when_remote_url_none_expects_local_driver_path(self):
+        """Test that None remote_url follows local driver creation path."""
+        with (
+            patch.object(DriverFactory, "_create_local_driver") as mock_local,
+            patch.object(DriverFactory, "_create_remote_driver") as mock_remote,
+        ):
+            mock_driver = Mock()
+            mock_local.return_value = mock_driver
+
+            result = DriverFactory.create_driver(
+                browser="chrome",
+                remote_url=None,  # Explicitly test None path
+            )
+
+            # Should call local driver creation, not remote
+            mock_local.assert_called_once_with("chrome", False, None, None, None)
+            mock_remote.assert_not_called()
+            assert result == mock_driver
+
+    def test_create_driver_when_remote_url_provided_expects_remote_driver_path(self):
+        """Test that providing remote_url follows remote driver creation path."""
+        with (
+            patch.object(DriverFactory, "_create_local_driver") as mock_local,
+            patch.object(DriverFactory, "_create_remote_driver") as mock_remote,
+        ):
+            mock_driver = Mock()
+            mock_remote.return_value = mock_driver
+            remote_url = "http://selenium-grid:4444/wd/hub"
+
+            result = DriverFactory.create_driver(
+                browser="firefox", remote_url=remote_url
+            )
+
+            # Should call remote driver creation, not local
+            mock_remote.assert_called_once_with(
+                "firefox", remote_url, False, None, None, None
+            )
+            mock_local.assert_not_called()
+            assert result == mock_driver
+
+    def test_create_remote_driver_when_edge_browser_expects_edge_capabilities(self):
+        """Test Edge browser path in remote driver creation."""
+        with (
+            patch("pmas.core.driver.webdriver.Remote") as mock_remote,
+            patch.object(DriverFactory, "_get_edge_options") as mock_options,
+            patch.object(DriverFactory, "_configure_driver") as mock_configure,
+        ):
+            mock_driver = Mock()
+            mock_remote.return_value = mock_driver
+            mock_options_instance = Mock()
+            mock_capabilities = {"browserName": "MicrosoftEdge"}
+            mock_options_instance.to_capabilities.return_value = mock_capabilities
+            mock_options.return_value = mock_options_instance
+
+            result = DriverFactory._create_remote_driver(
+                browser="edge",
+                remote_url="http://hub:4444/wd/hub",
+                headless=True,
+                window_size=(1024, 768),
+                download_dir=None,
+                additional_options=["--disable-gpu"],
+            )
+
+            # Verify Edge options were called
+            mock_options.assert_called_once_with(
+                True, (1024, 768), None, ["--disable-gpu"]
+            )
+
+            # Verify capabilities conversion
+            mock_options_instance.to_capabilities.assert_called_once()
+
+            # Verify remote driver creation with Edge capabilities
+            mock_remote.assert_called_once_with(
+                command_executor="http://hub:4444/wd/hub",
+                desired_capabilities=mock_capabilities,
+            )
+
+            mock_configure.assert_called_once_with(mock_driver, (1024, 768))
+            assert result == mock_driver
