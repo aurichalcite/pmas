@@ -54,17 +54,25 @@ class FakeWebElement:
             raise WebDriverException("Element is not clickable")
         self._click_count += 1
 
+        # For checkbox and radio button elements, toggle selection state
+        if self.attributes.get("type") in ["checkbox", "radio"]:
+            self._is_selected = not self._is_selected
+
     def send_keys(self, *value: str) -> None:
         """Simulate typing text into the element."""
         if not self._is_enabled:
             raise WebDriverException("Element is not enabled")
         self._text_input += "".join(str(v) for v in value)
+        # Update the value attribute to match the text input
+        self.attributes["value"] = self._text_input
 
     def clear(self) -> None:
         """Simulate clearing the element's text."""
         if not self._is_enabled:
             raise WebDriverException("Element is not enabled")
         self._text_input = ""
+        # Update the value attribute to match the cleared text
+        self.attributes["value"] = ""
 
     def get_attribute(self, name: str) -> str | None:
         """Get an attribute value."""
@@ -310,6 +318,23 @@ class FakeWebDriver:
     def get_window_size(self) -> dict[str, int]:
         """Get the window size."""
         return self._window_size.copy()
+
+    def execute_script(self, script: str, *args) -> Any:
+        """Execute JavaScript in the browser."""
+        if self._is_quit:
+            raise WebDriverException("Driver has been quit")
+        self._log_operation("execute_script", script=script, args=args)
+        # For scroll_into_view, just return None
+        return None
+
+    def refresh(self) -> None:
+        """Refresh the current page."""
+        if self._is_quit:
+            raise WebDriverException("Driver has been quit")
+        self._log_operation("refresh")
+        # Clear elements registry to simulate page refresh
+        self._elements_registry.clear()
+        self._setup_default_elements()
 
     # Helper methods for test verification
 
