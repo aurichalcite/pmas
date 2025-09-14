@@ -27,7 +27,7 @@ from pmas.config.model import (
     EnvironmentConfig,
     LoggingConfig,
     ReportingConfig,
-    TestConfig,
+    TestingConfig,
     WebDriverConfig,
 )
 
@@ -96,12 +96,12 @@ class TestBrowserConfig:
         assert config.download_dir is path_obj
 
 
-class TestTestConfig:
-    """Unit tests for TestConfig class."""
+class TestTestingConfig:
+    """Unit tests for TestingConfig class."""
 
     def test_test_config_default_initialization(self):
-        """Test TestConfig initialization with default values."""
-        config = TestConfig()
+        """Test TestingConfig initialization with default values."""
+        config = TestingConfig()
 
         assert config.default_timeout == 10.0
         assert config.retry_attempts == 3
@@ -113,27 +113,27 @@ class TestTestConfig:
 
     @pytest.mark.parametrize("timeout", [1.0, 5.0, 10.0, 30.0, 60.0])
     def test_test_config_valid_timeouts(self, timeout: float):
-        """Test TestConfig with various valid timeout values."""
-        config = TestConfig(default_timeout=timeout)
+        """Test TestingConfig with various valid timeout values."""
+        config = TestingConfig(default_timeout=timeout)
         assert config.default_timeout == timeout
 
     @pytest.mark.parametrize("timeout", [0.0, -1.0, -10.0])
     def test_test_config_invalid_timeout_raises_error(self, timeout: float):
         """Test that invalid timeout values raise ValueError."""
         with pytest.raises(ValueError, match="Default timeout must be positive"):
-            TestConfig(default_timeout=timeout)
+            TestingConfig(default_timeout=timeout)
 
     @pytest.mark.parametrize("attempts", [-1, -5])
     def test_test_config_invalid_retry_attempts_raises_error(self, attempts: int):
         """Test that negative retry attempts raise ValueError."""
         with pytest.raises(ValueError, match="Retry attempts must be non-negative"):
-            TestConfig(retry_attempts=attempts)
+            TestingConfig(retry_attempts=attempts)
 
     @pytest.mark.parametrize("workers", [0, -1, -5])
     def test_test_config_invalid_max_workers_raises_error(self, workers: int):
         """Test that invalid max_workers values raise ValueError."""
         with pytest.raises(ValueError, match="Max workers must be positive"):
-            TestConfig(max_workers=workers)
+            TestingConfig(max_workers=workers)
 
 
 class TestEnvironmentConfig:
@@ -172,7 +172,7 @@ class TestMainConfig:
         # Verify all sub-configs are properly initialized
         assert isinstance(config.browser, BrowserConfig)
         assert isinstance(config.webdriver, WebDriverConfig)
-        assert isinstance(config.test, TestConfig)
+        assert isinstance(config.test, TestingConfig)
         assert isinstance(config.logging, LoggingConfig)
         assert isinstance(config.reporting, ReportingConfig)
         assert isinstance(config.environment, EnvironmentConfig)
@@ -189,8 +189,8 @@ class TestMainConfig:
         assert config.browser.headless is True
 
     def test_config_with_custom_test_config(self):
-        """Test Config initialization with custom TestConfig."""
-        test_config = TestConfig(default_timeout=5.0, retry_attempts=1)
+        """Test Config initialization with custom TestingConfig."""
+        test_config = TestingConfig(default_timeout=5.0, retry_attempts=1)
         config = Config(test=test_config)
 
         assert config.test.default_timeout == 5.0
@@ -226,6 +226,8 @@ class TestMainConfig:
         assert isinstance(config_dict["browser"], dict)
         assert isinstance(config_dict["test"], dict)
 
+    @pytest.mark.filterwarnings("ignore:Password appears to be hardcoded")
+    @pytest.mark.filterwarnings("ignore:API key appears to be hardcoded")
     def test_config_string_representation_redacts_sensitive_data(self):
         """Test that Config.__str__() redacts sensitive information."""
         credentials = CredentialsConfig(
@@ -274,7 +276,7 @@ class TestMainConfig:
 
         # Test with invalid test config
         with pytest.raises(ValueError):
-            invalid_test = TestConfig(default_timeout=-5.0)
+            invalid_test = TestingConfig(default_timeout=-5.0)
 
     def test_config_immutability_concept(self):
         """Test that Config behaves as expected for immutability."""
@@ -337,7 +339,7 @@ class TestMainConfig:
 
         # Create override config with different values
         override_browser = BrowserConfig(name="firefox", headless=True)
-        override_test = TestConfig(default_timeout=5.0, retry_attempts=1)
+        override_test = TestingConfig(default_timeout=5.0, retry_attempts=1)
         override_config = Config(browser=override_browser, test=override_test)
 
         # Verify configs have different values

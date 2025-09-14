@@ -61,7 +61,7 @@ class WebDriverConfig:
 
 
 @dataclass
-class TestConfig:
+class TestingConfig:
     """Test execution configuration."""
 
     default_timeout: float = 10.0
@@ -194,7 +194,7 @@ class Config:
 
     browser: BrowserConfig = field(default_factory=BrowserConfig)
     webdriver: WebDriverConfig = field(default_factory=WebDriverConfig)
-    test: TestConfig = field(default_factory=TestConfig)
+    test: TestingConfig = field(default_factory=TestingConfig)
     logging: LoggingConfig = field(default_factory=LoggingConfig)
     reporting: ReportingConfig = field(default_factory=ReportingConfig)
     environment: EnvironmentConfig = field(default_factory=EnvironmentConfig)

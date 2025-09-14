@@ -18,7 +18,7 @@ from selenium import webdriver
 
 # ASSUMPTION: Import PMAS components - these imports reflect the actual PMAS API
 from pmas import Config, DriverFactory
-from pmas.config.model import BrowserConfig, EnvironmentConfig, TestConfig
+from pmas.config.model import BrowserConfig, EnvironmentConfig, TestingConfig
 
 from .fakes.fake_webdriver import FakeWebDriver
 
@@ -47,7 +47,7 @@ def pmas_config() -> Config:
             additional_options=["--no-sandbox", "--disable-dev-shm-usage"],
         ),
         environment=EnvironmentConfig(base_url="http://localhost:8080", name="test"),
-        test=TestConfig(
+        test=TestingConfig(
             default_timeout=5.0,  # Fast timeouts for tests
             retry_attempts=1,  # Minimal retries in tests
             retry_delay=0.1,  # Fast retry delay
@@ -140,9 +140,22 @@ def artifacts_dir() -> Generator[Path, None, None]:
 
 def pytest_configure(config):
     """Configure pytest with PMAS-specific settings."""
-    # Add custom markers if not already defined
+    # Defensively register all markers to avoid warnings
+    # These will be registered even if pytest.ini is not found
+    markers = [
+        "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+        "unit: marks tests as unit tests",
+        "integration: marks tests as integration tests",
+        "real_browser: marks tests that require real browser",
+    ]
+
+    for marker in markers:
+        config.addinivalue_line("markers", marker)
+
+    # Add filter for TestingConfig collection warning
     config.addinivalue_line(
-        "markers", "slow: marks tests as slow (deselect with '-m \"not slow\"')"
+        "filterwarnings",
+        "ignore:cannot collect test class 'TestingConfig':pytest.PytestCollectionWarning",
     )
 
 

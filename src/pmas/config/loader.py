@@ -26,7 +26,7 @@ from .model import (
     EnvironmentConfig,
     LoggingConfig,
     ReportingConfig,
-    TestConfig,
+    TestingConfig,
     WebDriverConfig,
 )
 
@@ -385,7 +385,7 @@ class ConfigLoader:
         return Config(
             browser=BrowserConfig(**config_dict.get("browser", {})),
             webdriver=WebDriverConfig(**config_dict.get("webdriver", {})),
-            test=TestConfig(**config_dict.get("test", {})),
+            test=TestingConfig(**config_dict.get("test", {})),
             logging=LoggingConfig(**config_dict.get("logging", {})),
             reporting=ReportingConfig(**config_dict.get("reporting", {})),
             environment=EnvironmentConfig(**config_dict.get("environment", {})),

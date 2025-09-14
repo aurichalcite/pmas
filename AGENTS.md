@@ -7,40 +7,40 @@ PMAS (Python Modern Automation Suite) is a modern, reusable Web UI testing frame
 ### Development Setup
 ```bash
 # Install development dependencies
-pip install -e ".[dev]"
+uv pip install -e ".[dev]"
 ```
 
 ### Running Tests
 ```bash
 # Run all unit and integration tests (default, fast)
-pytest
+uv run pytest
 
 # Run specific test categories
-pytest -m unit              # Unit tests only
-pytest -m integration        # Integration tests only
+uv run pytest -m unit              # Unit tests only
+uv run pytest -m integration        # Integration tests only
 
 # Run real browser tests (requires explicit enablement)
 export PMAS_RUN_REAL_BROWSER=1
-pytest -m real_browser
+uv run pytest -m real_browser
 
 # Run tests with coverage
-pytest --cov=src/pmas --cov-report=term-missing
+uv run pytest --cov=src/pmas --cov-report=term-missing
 
 # Run tests in parallel
-pytest -n auto
+uv run pytest -n auto
 
 # Run specific test file
-pytest tests/unit/test_core_config.py
+uv run pytest tests/unit/test_core_config.py
 ```
 
 ### Code Quality
 ```bash
 # Run linting
-ruff check src/ tests/
-ruff format src/ tests/
+uv run ruff check src/ tests/
+uv run ruff format src/ tests/
 
 # Run type checking
-mypy src/
+uv run mypy src/
 ```
 
 ## Architecture Overview
