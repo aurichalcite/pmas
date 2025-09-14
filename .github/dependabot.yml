@@ -1,0 +1,69 @@
+# Dependabot configuration for automated dependency updates
+version: 2
+
+updates:
+  # Python dependencies
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "pmas-maintainers"
+    assignees:
+      - "pmas-maintainers"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "python"
+    
+    # Group related updates
+    groups:
+      selenium:
+        patterns:
+          - "selenium*"
+      testing:
+        patterns:
+          - "pytest*"
+          - "coverage*"
+          - "allure*"
+      linting:
+        patterns:
+          - "ruff*"
+          - "mypy*"
+          - "bandit*"
+      dev-tools:
+        patterns:
+          - "pre-commit*"
+          - "black*"
+          - "isort*"
+    
+    # Ignore specific packages that require manual review
+    ignore:
+      - dependency-name: "selenium"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "pytest"
+        update-types: ["version-update:semver-major"]
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "pmas-maintainers"
+    assignees:
+      - "pmas-maintainers"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "github-actions"

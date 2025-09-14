@@ -1,0 +1,321 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'  # Trigger on version tags like v1.0.0
+
+env:
+  PYTHON_DEFAULT_VERSION: "3.11"
+
+jobs:
+  validate-tag:
+    name: Validate Release Tag
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get_version.outputs.version }}
+      
+    steps:
+    - uses: actions/checkout@v5
+    
+    - name: Get version from tag
+      id: get_version
+      run: |
+        VERSION=${GITHUB_REF#refs/tags/v}
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "Release version: $VERSION"
+    
+    - name: Set up Python
+      uses: actions/setup-python@v6
+      with:
+        python-version: ${{ env.PYTHON_DEFAULT_VERSION }}
+    
+    - name: Validate version consistency
+      run: |
+        TAG_VERSION="${{ steps.get_version.outputs.version }}"
+        PYPROJECT_VERSION=$(grep '^version = ' pyproject.toml | sed 's/version = "\(.*\)"/\1/')
+        INIT_VERSION=$(python -c "import sys; sys.path.insert(0, 'src'); import pmas; print(pmas.__version__)")
+        
+        echo "Tag version: $TAG_VERSION"
+        echo "pyproject.toml version: $PYPROJECT_VERSION"
+        echo "__init__.py version: $INIT_VERSION"
+        
+        if [ "$TAG_VERSION" != "$PYPROJECT_VERSION" ] || [ "$TAG_VERSION" != "$INIT_VERSION" ]; then
+          echo "Version mismatch detected!"
+          echo "All versions must match for release"
+          exit 1
+        fi
+        
+        echo "Version validation passed ✅"
+
+  test-release:
+    name: Test Before Release
+    runs-on: ubuntu-latest
+    needs: validate-tag
+    
+    steps:
+    - uses: actions/checkout@v5
+    
+    - name: Set up Python
+      uses: actions/setup-python@v6
+      with:
+        python-version: ${{ env.PYTHON_DEFAULT_VERSION }}
+    
+    - name: Install uv
+      uses: astral-sh/setup-uv@v6
+      with:
+        version: "latest"
+    
+    - name: Install dependencies
+      run: |
+        uv sync --dev
+    
+    - name: Run full test suite
+      run: |
+        uv run pytest tests/ -v --tb=short --cov=src/pmas --cov-report=term-missing
+    
+    - name: Run linting
+      run: |
+        uv run ruff check src/ tests/
+        uv run ruff format --check src/ tests/
+    
+    - name: Run type checking
+      run: |
+        uv run mypy src/
+
+  build-release:
+    name: Build Release Package
+    runs-on: ubuntu-latest
+    needs: [validate-tag, test-release]
+    
+    steps:
+    - uses: actions/checkout@v5
+    
+    - name: Set up Python
+      uses: actions/setup-python@v6
+      with:
+        python-version: ${{ env.PYTHON_DEFAULT_VERSION }}
+    
+    - name: Install uv
+      uses: astral-sh/setup-uv@v6
+      with:
+        version: "latest"
+    
+    - name: Build package
+      run: |
+        uv build
+    
+    - name: Verify package contents
+      run: |
+        # Check that the built package contains expected files
+        python -m zipfile -l dist/*.whl | grep -E "(pmas|__init__|py\.typed)"
+        
+        # Test installation in clean environment
+        python -m venv test_install
+        source test_install/bin/activate
+        pip install dist/*.whl
+        python -c "import pmas; print(f'Successfully installed PMAS {pmas.__version__}')"
+    
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: release-dist
+        path: dist/
+
+  create-github-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: [validate-tag, build-release]
+    permissions:
+      contents: write
+    
+    steps:
+    - uses: actions/checkout@v5
+      with:
+        fetch-depth: 0  # Fetch full history for changelog
+    
+    - name: Download build artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: release-dist
+        path: dist/
+    
+    - name: Generate changelog
+      id: changelog
+      run: |
+        VERSION="${{ needs.validate-tag.outputs.version }}"
+        
+        # Get the previous tag
+        PREV_TAG=$(git tag --sort=-version:refname | grep -v "^v$VERSION$" | head -n1)
+        
+        echo "Generating changelog from $PREV_TAG to v$VERSION"
+        
+        # Generate changelog
+        cat > CHANGELOG.md << EOF
+        # Release v$VERSION
+        
+        ## Changes
+        
+        EOF
+        
+        if [ -n "$PREV_TAG" ]; then
+          git log --pretty=format:"- %s (%h)" $PREV_TAG..HEAD >> CHANGELOG.md
+        else
+          git log --pretty=format:"- %s (%h)" >> CHANGELOG.md
+        fi
+        
+        echo "" >> CHANGELOG.md
+        echo "" >> CHANGELOG.md
+        echo "## Package Information" >> CHANGELOG.md
+        echo "- Python versions: 3.11+" >> CHANGELOG.md
+        echo "- Selenium version: 4.0+" >> CHANGELOG.md
+        echo "- Framework type: Web UI Testing" >> CHANGELOG.md
+        
+        # Set output for release notes
+        echo "changelog<<EOF" >> $GITHUB_OUTPUT
+        cat CHANGELOG.md >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+    
+    - name: Create GitHub Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ needs.validate-tag.outputs.version }}
+        release_name: PMAS v${{ needs.validate-tag.outputs.version }}
+        body: ${{ steps.changelog.outputs.changelog }}
+        draft: false
+        prerelease: false
+    
+    - name: Upload Release Assets
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: dist/
+        asset_name: pmas-${{ needs.validate-tag.outputs.version }}-dist
+        asset_content_type: application/zip
+
+  publish-pypi:
+    name: Publish to PyPI
+    runs-on: ubuntu-latest
+    needs: [validate-tag, build-release, create-github-release]
+    environment: release  # Use GitHub environment for additional protection
+    
+    steps:
+    - uses: actions/checkout@v5
+    
+    - name: Set up Python
+      uses: actions/setup-python@v6
+      with:
+        python-version: ${{ env.PYTHON_DEFAULT_VERSION }}
+    
+    - name: Download build artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: release-dist
+        path: dist/
+    
+    - name: Install uv
+      uses: astral-sh/setup-uv@v6
+      with:
+        version: "latest"
+    
+    - name: Publish to PyPI
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+      run: |
+        uv tool install twine
+        uv tool run twine check dist/*
+        uv tool run twine upload dist/*
+
+  publish-test-pypi:
+    name: Publish to Test PyPI
+    runs-on: ubuntu-latest
+    needs: [validate-tag, build-release]
+    if: contains(needs.validate-tag.outputs.version, 'rc') || contains(needs.validate-tag.outputs.version, 'beta') || contains(needs.validate-tag.outputs.version, 'alpha')
+    
+    steps:
+    - uses: actions/checkout@v5
+    
+    - name: Set up Python
+      uses: actions/setup-python@v6
+      with:
+        python-version: ${{ env.PYTHON_DEFAULT_VERSION }}
+    
+    - name: Download build artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: release-dist
+        path: dist/
+    
+    - name: Install uv
+      uses: astral-sh/setup-uv@v6
+      with:
+        version: "latest"
+    
+    - name: Publish to Test PyPI
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
+      run: |
+        uv tool install twine
+        uv tool run twine check dist/*
+        uv tool run twine upload --repository testpypi dist/*
+
+  post-release:
+    name: Post-Release Tasks
+    runs-on: ubuntu-latest
+    needs: [validate-tag, publish-pypi]
+    if: always() && needs.publish-pypi.result == 'success'
+    
+    steps:
+    - uses: actions/checkout@v5
+    
+    - name: Create post-release issue
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const version = "${{ needs.validate-tag.outputs.version }}";
+          
+          const issueBody = `
+          # Post-Release Tasks for v${version}
+          
+          This issue tracks post-release tasks for PMAS v${version}.
+          
+          ## Tasks
+          - [ ] Update documentation website
+          - [ ] Announce release on social media
+          - [ ] Update examples and tutorials
+          - [ ] Monitor for any critical issues
+          - [ ] Update dependency versions if needed
+          
+          ## Release Information
+          - **Version**: v${version}
+          - **Release Date**: ${new Date().toISOString().split('T')[0]}
+          - **PyPI**: https://pypi.org/project/pmas/${version}/
+          - **GitHub**: https://github.com/${context.repo.owner}/${context.repo.repo}/releases/tag/v${version}
+          
+          ## Monitoring
+          - [ ] Check PyPI download stats after 24h
+          - [ ] Monitor GitHub issues for bug reports
+          - [ ] Check CI/CD pipeline health
+          
+          Auto-generated by release workflow.
+          `;
+          
+          await github.rest.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: `Post-Release Tasks: v${version}`,
+            body: issueBody,
+            labels: ['release', 'maintenance']
+          });
+    
+    - name: Notify team
+      run: |
+        echo "🎉 PMAS v${{ needs.validate-tag.outputs.version }} has been successfully released!"
+        echo "📦 Package: https://pypi.org/project/pmas/${{ needs.validate-tag.outputs.version }}/"
+        echo "📋 Release: https://github.com/${{ github.repository }}/releases/tag/v${{ needs.validate-tag.outputs.version }}"

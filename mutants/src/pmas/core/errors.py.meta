@@ -1,0 +1,27 @@
+{
+    "exit_code_by_key": {
+        "pmas.core.errors.x\u01c1FrameworkError\u01c1__init____mutmut_1": null,
+        "pmas.core.errors.x\u01c1FrameworkError\u01c1__init____mutmut_2": null,
+        "pmas.core.errors.x\u01c1ElementNotFoundError\u01c1__init____mutmut_1": null,
+        "pmas.core.errors.x\u01c1ElementNotFoundError\u01c1__init____mutmut_2": null,
+        "pmas.core.errors.x\u01c1ElementNotFoundError\u01c1__init____mutmut_3": null,
+        "pmas.core.errors.x\u01c1ElementNotFoundError\u01c1__init____mutmut_4": null,
+        "pmas.core.errors.x\u01c1ElementNotFoundError\u01c1__init____mutmut_5": null,
+        "pmas.core.errors.x\u01c1ElementNotFoundError\u01c1__init____mutmut_6": null,
+        "pmas.core.errors.x\u01c1ElementNotFoundError\u01c1__init____mutmut_7": null,
+        "pmas.core.errors.x\u01c1ElementNotFoundError\u01c1__init____mutmut_8": null,
+        "pmas.core.errors.x\u01c1ElementNotInteractableError\u01c1__init____mutmut_1": null,
+        "pmas.core.errors.x\u01c1ElementNotInteractableError\u01c1__init____mutmut_2": null,
+        "pmas.core.errors.x\u01c1ElementNotInteractableError\u01c1__init____mutmut_3": null,
+        "pmas.core.errors.x\u01c1ElementNotInteractableError\u01c1__init____mutmut_4": null,
+        "pmas.core.errors.x\u01c1ElementNotInteractableError\u01c1__init____mutmut_5": null,
+        "pmas.core.errors.x\u01c1ElementNotInteractableError\u01c1__init____mutmut_6": null,
+        "pmas.core.errors.x\u01c1ElementNotInteractableError\u01c1__init____mutmut_7": null,
+        "pmas.core.errors.x\u01c1PageLoadError\u01c1__init____mutmut_1": null,
+        "pmas.core.errors.x\u01c1PageLoadError\u01c1__init____mutmut_2": null,
+        "pmas.core.errors.x\u01c1PageLoadError\u01c1__init____mutmut_3": null,
+        "pmas.core.errors.x\u01c1PageLoadError\u01c1__init____mutmut_4": null,
+        "pmas.core.errors.x\u01c1PageLoadError\u01c1__init____mutmut_5": null
+    },
+    "hash_by_function_name": {}
+}
