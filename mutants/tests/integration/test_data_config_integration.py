@@ -20,15 +20,15 @@ from typing import Any
 
 import pytest
 import yaml
+
+from pmas import Config
+from pmas.core.errors import ValidationError
 from pmas.data.readers import (
     DataProvider,
     _convert_value,
     load_test_data,
     parametrize_from_file,
 )
-
-from pmas import Config
-from pmas.core.errors import ValidationError
 
 
 @pytest.mark.integration

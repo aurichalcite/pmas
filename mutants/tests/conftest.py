@@ -14,11 +14,11 @@ from collections.abc import Generator
 from pathlib import Path
 
 import pytest
-from pmas.config.model import BrowserConfig, EnvironmentConfig, TestConfig
 from selenium import webdriver
 
 # ASSUMPTION: Import PMAS components - these imports reflect the actual PMAS API
 from pmas import Config, DriverFactory
+from pmas.config.model import BrowserConfig, EnvironmentConfig, TestConfig
 
 from .fakes.fake_webdriver import FakeWebDriver
 

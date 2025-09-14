@@ -16,6 +16,8 @@ from pathlib import Path
 from unittest.mock import Mock, mock_open, patch
 
 import pytest
+
+from pmas.core.errors import ValidationError
 from pmas.data.readers import (
     DataProvider,
     _convert_value,
@@ -25,8 +27,6 @@ from pmas.data.readers import (
     load_yaml,
     parametrize_from_file,
 )
-
-from pmas.core.errors import ValidationError
 
 
 class TestValueConversion:

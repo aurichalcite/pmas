@@ -16,14 +16,14 @@ No network calls or external dependencies.
 from unittest.mock import Mock, patch
 
 import pytest
-from pmas.domains.manufacturing.adapters import (
-    ManufacturingLoginAdapter,
-    ManufacturingUserCredentials,
-)
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 
 # ASSUMPTION: Import PMAS domain components
 from pmas import Config
+from pmas.domains.manufacturing.adapters import (
+    ManufacturingLoginAdapter,
+    ManufacturingUserCredentials,
+)
 
 from ..fakes.fake_webdriver import FakeWebDriver, FakeWebElement
 
