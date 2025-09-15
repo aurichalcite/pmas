@@ -76,7 +76,10 @@ class TestManufacturingLoginAdapterIntegration:
     def test_login_adapter_initialization(
         self, fake_driver: FakeWebDriver, test_config: Config
     ):
-        """Test that ManufacturingLoginAdapter initializes correctly with dependencies."""
+        """
+        Test that ManufacturingLoginAdapter initializes correctly with
+        dependencies.
+        """
         adapter = ManufacturingLoginAdapter(fake_driver, test_config)
 
         assert adapter.driver is fake_driver
@@ -391,7 +394,6 @@ class TestManufacturingLoginAdapterIntegration:
         assert not fake_driver._is_quit
 
         # Verify operation log contains expected entries
-        operations = [op["operation"] for op in fake_driver.operation_log]
         # Should contain operations related to element finding, navigation, etc.
         assert len(fake_driver.operation_log) >= 0  # At least some operations logged
 

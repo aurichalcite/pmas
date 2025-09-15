@@ -181,7 +181,8 @@ class LegacyLocators:
             PMAS Locator object
         """
         warnings.warn(
-            "LegacyLocators.css_selector is deprecated. Use pmas.by_css_selector instead",
+            "LegacyLocators.css_selector is deprecated. "
+            "Use pmas.by_css_selector instead",
             DeprecationWarning,
             stacklevel=2,
         )
@@ -221,7 +222,8 @@ class LegacyLocators:
             PMAS Locator object
         """
         warnings.warn(
-            "LegacyLocators.partial_link_text is deprecated. Use pmas.by_partial_link_text instead",
+            "LegacyLocators.partial_link_text is deprecated. "
+            "Use pmas.by_partial_link_text instead",
             DeprecationWarning,
             stacklevel=2,
         )
@@ -251,7 +253,8 @@ class LegacyBy:
     @property
     def CLASS_NAME(self) -> str:
         warnings.warn(
-            "LegacyBy.CLASS_NAME is deprecated. Use pmas.by_class_name function instead",
+            "LegacyBy.CLASS_NAME is deprecated. "
+            "Use pmas.by_class_name function instead",
             DeprecationWarning,
             stacklevel=2,
         )
@@ -287,7 +290,8 @@ class LegacyBy:
     @property
     def CSS_SELECTOR(self) -> str:
         warnings.warn(
-            "LegacyBy.CSS_SELECTOR is deprecated. Use pmas.by_css_selector function instead",
+            "LegacyBy.CSS_SELECTOR is deprecated. "
+            "Use pmas.by_css_selector function instead",
             DeprecationWarning,
             stacklevel=2,
         )
@@ -305,7 +309,8 @@ class LegacyBy:
     @property
     def PARTIAL_LINK_TEXT(self) -> str:
         warnings.warn(
-            "LegacyBy.PARTIAL_LINK_TEXT is deprecated. Use pmas.by_partial_link_text function instead",
+            "LegacyBy.PARTIAL_LINK_TEXT is deprecated. "
+            "Use pmas.by_partial_link_text function instead",
             DeprecationWarning,
             stacklevel=2,
         )

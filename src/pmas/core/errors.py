@@ -47,7 +47,10 @@ class PageLoadError(FrameworkError):
     """Raised when a page fails to load properly."""
 
     def __init__(self, expected_title: str, actual_title: str, url: str) -> None:
-        message = f"Page load failed. Expected title: '{expected_title}', got: '{actual_title}' at URL: {url}"
+        message = (
+            f"Page load failed. Expected title: '{expected_title}', "
+            f"got: '{actual_title}' at URL: {url}"
+        )
         super().__init__(message)
         self.expected_title = expected_title
         self.actual_title = actual_title
@@ -56,6 +59,12 @@ class PageLoadError(FrameworkError):
 
 class DriverError(FrameworkError):
     """Raised when there are WebDriver-related issues."""
+
+    pass
+
+
+class LoginError(FrameworkError):
+    """Raised when a login attempt fails."""
 
     pass
 

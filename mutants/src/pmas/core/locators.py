@@ -2,8 +2,10 @@
 Typed locator system for web elements with modern Python patterns.
 """
 
+from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Literal
+from inspect import signature as _mutmut_signature
+from typing import Annotated, ClassVar, Literal
 
 from selenium.webdriver.common.by import By
 
@@ -30,9 +32,7 @@ STRATEGY_MAP = {
     "link_text": By.LINK_TEXT,
     "partial_link_text": By.PARTIAL_LINK_TEXT,
 }
-from collections.abc import Callable
-from inspect import signature as _mutmut_signature
-from typing import Annotated, ClassVar
+
 
 MutantDict = Annotated[dict[str, Callable], "Mutant"]
 

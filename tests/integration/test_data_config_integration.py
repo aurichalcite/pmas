@@ -335,9 +335,8 @@ class TestDataConfigurationIntegration:
         data_provider = DataProvider(temp_data_dir)
 
         # Use configuration values in data operations
-        timeout_based_filter = (
-            lambda item: item.get("timeout", 0) <= test_config.test.default_timeout
-        )
+        def timeout_based_filter(item: dict[str, Any]) -> bool:
+            return item.get("timeout", 0) <= test_config.test.default_timeout
 
         config_data = data_provider.get_data(
             "test_config.json", filter_func=timeout_based_filter

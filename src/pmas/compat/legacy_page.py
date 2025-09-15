@@ -116,7 +116,8 @@ class LegacyPageObject(BasePage):
             WebElement when clickable
         """
         warnings.warn(
-            "Legacy wait_for_element_clickable is deprecated. Use PMAS wait methods instead",
+            "Legacy wait_for_element_clickable is deprecated. "
+            "Use PMAS wait methods instead",
             DeprecationWarning,
             stacklevel=2,
         )
@@ -139,7 +140,8 @@ class LegacyPageObject(BasePage):
             WebElement when visible
         """
         warnings.warn(
-            "Legacy wait_for_element_visible is deprecated. Use PMAS wait methods instead",
+            "Legacy wait_for_element_visible is deprecated. "
+            "Use PMAS wait methods instead",
             DeprecationWarning,
             stacklevel=2,
         )
@@ -219,7 +221,8 @@ class LegacyPageObject(BasePage):
             Attribute value or None
         """
         warnings.warn(
-            "get_element_attribute is deprecated. Use PMAS element abstractions instead",
+            "get_element_attribute is deprecated. "
+            "Use PMAS element abstractions instead",
             DeprecationWarning,
             stacklevel=2,
         )
@@ -296,7 +299,8 @@ class LegacyPageObject(BasePage):
             value: Option value to select
         """
         warnings.warn(
-            "select_dropdown_by_value is deprecated. Use PMAS dropdown abstraction instead",
+            "select_dropdown_by_value is deprecated. "
+            "Use PMAS dropdown abstraction instead",
             DeprecationWarning,
             stacklevel=2,
         )
@@ -316,7 +320,8 @@ class LegacyPageObject(BasePage):
             text: Option text to select
         """
         warnings.warn(
-            "select_dropdown_by_text is deprecated. Use PMAS dropdown abstraction instead",
+            "select_dropdown_by_text is deprecated. "
+            "Use PMAS dropdown abstraction instead",
             DeprecationWarning,
             stacklevel=2,
         )

@@ -3,10 +3,15 @@ SauceDemo checkout page object demonstrating PMAS framework usage.
 """
 
 import logging
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from ....core.locators import by_class_name, by_css_selector, by_id
 from ....core.page import BasePage
+
+if TYPE_CHECKING:
+    from .cart_page import SauceDemoCartPage
+    from .inventory_page import SauceDemoInventoryPage
+
 
 logger = logging.getLogger(__name__)
 

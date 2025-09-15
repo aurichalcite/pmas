@@ -51,7 +51,7 @@ class TestDriverFactoryValidation:
             mock_driver = Mock()
             mock_create.return_value = mock_driver
 
-            result = DriverFactory.create_driver(browser=browser_input)
+            DriverFactory.create_driver(browser=browser_input)
 
             mock_create.assert_called_once()
             args = mock_create.call_args[0]

@@ -1,5 +1,6 @@
 """
-Manufacturing domain adapters that compose core components for manufacturing-specific workflows.
+Manufacturing domain adapters that compose core components for
+manufacturing-specific workflows.
 """
 
 import logging
@@ -130,7 +131,8 @@ class ProductionOrderAdapter:
             Dictionary with creation results
         """
         logger.info(
-            f"Creating production order: {order_data.production_line_id} for {order_data.order_quantity} units"
+            f"Creating production order: {order_data.production_line_id} "
+            f"for {order_data.order_quantity} units"
         )
 
         try:
@@ -233,11 +235,13 @@ class MaterialPlanningAdapter:
             Dictionary with material calculations
         """
         logger.info(
-            f"Calculating material requirements for order: {order_data.production_line_id}"
+            "Calculating material requirements for order: "
+            f"{order_data.production_line_id}"
         )
 
         try:
-            # Implementation would navigate to material planning page and perform calculations
+            # Implementation would navigate to material planning page and
+            # perform calculations
             return {
                 "success": True,
                 "materials_needed": {
@@ -398,7 +402,8 @@ class ManufacturingWorkflowOrchestrator:
                 )
 
             logger.info(
-                f"Manufacturing workflow completed successfully. Steps: {workflow_results['steps_completed']}"
+                "Manufacturing workflow completed successfully. "
+                f"Steps: {workflow_results['steps_completed']}"
             )
             return workflow_results
 

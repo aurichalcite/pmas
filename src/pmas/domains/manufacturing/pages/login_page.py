@@ -23,7 +23,8 @@ logger = logging.getLogger(__name__)
 
 class ManufacturingLoginPage(BaseManufacturingPage):
     """
-    Manufacturing manufacturing domain login page with support for different user types and environments.
+    Manufacturing manufacturing domain login page with support for different
+    user types and environments.
     """
 
     url_path = "FMS/Login/Login"
@@ -47,7 +48,9 @@ class ManufacturingLoginPage(BaseManufacturingPage):
         super().__init__(driver, base_url, timeout)
 
     def verify_page_loaded(self) -> bool:
-        """Verify that the manufacturing manufacturing login page has loaded correctly."""
+        """
+        Verify that the manufacturing manufacturing login page has loaded correctly.
+        """
         try:
             # Check for login form elements
             login_button = self.get_button(self.LOGIN_SUBMIT)
@@ -119,7 +122,8 @@ class ManufacturingLoginPage(BaseManufacturingPage):
                     return None
                 else:
                     logger.info(
-                        f"Manufacturing manufacturing login correctly failed for user: {username}"
+                        "Manufacturing manufacturing login correctly "
+                        f"failed for user: {username}"
                     )
                     return None
 
@@ -128,7 +132,8 @@ class ManufacturingLoginPage(BaseManufacturingPage):
                 return self._handle_successful_login(username)
             else:
                 self.add_production_error(
-                    f"Manufacturing manufacturing login should have failed for user {username} but succeeded"
+                    "Manufacturing manufacturing login should have failed "
+                    f"for user {username} but succeeded"
                 )
                 return None
 
@@ -138,7 +143,8 @@ class ManufacturingLoginPage(BaseManufacturingPage):
             )
             if expect_valid:
                 self.add_production_error(
-                    f"Manufacturing manufacturing login exception for user {username}: {e}"
+                    "Manufacturing manufacturing login exception for user "
+                    f"{username}: {e}"
                 )
             return None
 
@@ -188,14 +194,16 @@ class ManufacturingLoginPage(BaseManufacturingPage):
 
         for attempt in range(attempts):
             logger.info(
-                f"Failed manufacturing manufacturing login attempt {attempt + 1} for user: {username}"
+                f"Failed manufacturing manufacturing login attempt {attempt + 1} "
+                f"for user: {username}"
             )
             result = self.login(username, wrong_password, expect_valid=False)
 
             if result is not None:
                 # Login unexpectedly succeeded
                 self.add_production_error(
-                    f"Manufacturing manufacturing login should have failed on attempt {attempt + 1}"
+                    "Manufacturing manufacturing login should have failed on "
+                    f"attempt {attempt + 1}"
                 )
                 return result
 
@@ -203,7 +211,8 @@ class ManufacturingLoginPage(BaseManufacturingPage):
 
     def _get_manufacturing_credentials(self, user_type: int) -> tuple[str, str]:
         """
-        Get credentials for a specific manufacturing manufacturing user type based on environment.
+        Get credentials for a specific manufacturing manufacturing user type
+        based on environment.
 
         Args:
             user_type: Type of user (USER_PLANNER, USER_MANAGER, etc.)
@@ -217,7 +226,8 @@ class ManufacturingLoginPage(BaseManufacturingPage):
 
         if env_user and env_password:
             logger.info(
-                "Using manufacturing manufacturing credentials from environment variables"
+                "Using manufacturing manufacturing credentials from "
+                "environment variables"
             )
             return env_user, env_password
 
@@ -231,7 +241,8 @@ class ManufacturingLoginPage(BaseManufacturingPage):
         else:
             # Production or unknown environment
             raise ValueError(
-                f"No default manufacturing manufacturing credentials for environment: {environment}"
+                "No default manufacturing manufacturing credentials for "
+                f"environment: {environment}"
             )
 
         if user_type < len(users):
@@ -244,7 +255,10 @@ class ManufacturingLoginPage(BaseManufacturingPage):
             return users[0]
 
     def _handle_successful_login(self, username: str) -> "BaseManufacturingPage":
-        """Handle successful manufacturing manufacturing login and return appropriate landing page."""
+        """
+        Handle successful manufacturing manufacturing login and return
+        appropriate landing page.
+        """
         logger.info(
             f"Manufacturing manufacturing login successful for user: {username}"
         )
@@ -252,13 +266,15 @@ class ManufacturingLoginPage(BaseManufacturingPage):
         # Get user info from the page
         factory, logged_user = self.get_logged_factory_user()
         logger.info(
-            f"Landed on manufacturing manufacturing page {self.title} as user: {logged_user}"
+            f"Landed on manufacturing manufacturing page {self.title} "
+            f"as user: {logged_user}"
         )
 
         # Verify the logged user matches what we expected
         if username != logged_user:
             self.add_production_error(
-                f"Landing page has wrong username [{logged_user}], expected [{username}]"
+                f"Landing page has wrong username [{logged_user}], "
+                f"expected [{username}]"
             )
 
         # Return the appropriate page object based on the landing page
@@ -267,7 +283,8 @@ class ManufacturingLoginPage(BaseManufacturingPage):
     def _handle_page_not_found(self, username: str) -> "BaseManufacturingPage":
         """Handle the case where manufacturing user lands on 'Page not found'."""
         logger.warning(
-            f"Manufacturing user {username} landed on 'Page not found'; navigating to Reference page"
+            f"Manufacturing user {username} landed on 'Page not found'; "
+            "navigating to Reference page"
         )
 
         try:
@@ -284,10 +301,13 @@ class ManufacturingLoginPage(BaseManufacturingPage):
             return self
 
     def handle_certificate_error(self) -> None:
-        """Handle SSL certificate errors in IE for manufacturing manufacturing system."""
+        """
+        Handle SSL certificate errors in IE for manufacturing manufacturing system.
+        """
         if self.title == "Certificate Error: Navigation Blocked":
             logger.info(
-                "Handling SSL certificate error for manufacturing manufacturing system (IE)"
+                "Handling SSL certificate error for manufacturing "
+                "manufacturing system (IE)"
             )
             try:
                 # Execute JavaScript to override certificate warning

@@ -5,8 +5,10 @@ Base page class providing common page operations and navigation patterns.
 import logging
 import time
 from abc import ABC, abstractmethod
+from collections.abc import Callable
+from inspect import signature as _mutmut_signature
 from pathlib import Path
-from typing import Any, TypeVar
+from typing import Annotated, Any, ClassVar, TypeVar
 
 from selenium.common.exceptions import (
     TimeoutException,
@@ -22,9 +24,7 @@ logger = logging.getLogger(__name__)
 
 # Type variable for page classes
 PageType = TypeVar("PageType", bound="BasePage")
-from collections.abc import Callable
-from inspect import signature as _mutmut_signature
-from typing import Annotated, ClassVar
+
 
 MutantDict = Annotated[dict[str, Callable], "Mutant"]
 
@@ -1751,43 +1751,117 @@ class BasePage(ABC):
         return self
 
     xǁBasePageǁwait_for_page_load__mutmut_mutants: ClassVar[MutantDict] = {
-        "xǁBasePageǁwait_for_page_load__mutmut_1": xǁBasePageǁwait_for_page_load__mutmut_1,
-        "xǁBasePageǁwait_for_page_load__mutmut_2": xǁBasePageǁwait_for_page_load__mutmut_2,
-        "xǁBasePageǁwait_for_page_load__mutmut_3": xǁBasePageǁwait_for_page_load__mutmut_3,
-        "xǁBasePageǁwait_for_page_load__mutmut_4": xǁBasePageǁwait_for_page_load__mutmut_4,
-        "xǁBasePageǁwait_for_page_load__mutmut_5": xǁBasePageǁwait_for_page_load__mutmut_5,
-        "xǁBasePageǁwait_for_page_load__mutmut_6": xǁBasePageǁwait_for_page_load__mutmut_6,
-        "xǁBasePageǁwait_for_page_load__mutmut_7": xǁBasePageǁwait_for_page_load__mutmut_7,
-        "xǁBasePageǁwait_for_page_load__mutmut_8": xǁBasePageǁwait_for_page_load__mutmut_8,
-        "xǁBasePageǁwait_for_page_load__mutmut_9": xǁBasePageǁwait_for_page_load__mutmut_9,
-        "xǁBasePageǁwait_for_page_load__mutmut_10": xǁBasePageǁwait_for_page_load__mutmut_10,
-        "xǁBasePageǁwait_for_page_load__mutmut_11": xǁBasePageǁwait_for_page_load__mutmut_11,
-        "xǁBasePageǁwait_for_page_load__mutmut_12": xǁBasePageǁwait_for_page_load__mutmut_12,
-        "xǁBasePageǁwait_for_page_load__mutmut_13": xǁBasePageǁwait_for_page_load__mutmut_13,
-        "xǁBasePageǁwait_for_page_load__mutmut_14": xǁBasePageǁwait_for_page_load__mutmut_14,
-        "xǁBasePageǁwait_for_page_load__mutmut_15": xǁBasePageǁwait_for_page_load__mutmut_15,
-        "xǁBasePageǁwait_for_page_load__mutmut_16": xǁBasePageǁwait_for_page_load__mutmut_16,
-        "xǁBasePageǁwait_for_page_load__mutmut_17": xǁBasePageǁwait_for_page_load__mutmut_17,
-        "xǁBasePageǁwait_for_page_load__mutmut_18": xǁBasePageǁwait_for_page_load__mutmut_18,
-        "xǁBasePageǁwait_for_page_load__mutmut_19": xǁBasePageǁwait_for_page_load__mutmut_19,
-        "xǁBasePageǁwait_for_page_load__mutmut_20": xǁBasePageǁwait_for_page_load__mutmut_20,
-        "xǁBasePageǁwait_for_page_load__mutmut_21": xǁBasePageǁwait_for_page_load__mutmut_21,
-        "xǁBasePageǁwait_for_page_load__mutmut_22": xǁBasePageǁwait_for_page_load__mutmut_22,
-        "xǁBasePageǁwait_for_page_load__mutmut_23": xǁBasePageǁwait_for_page_load__mutmut_23,
-        "xǁBasePageǁwait_for_page_load__mutmut_24": xǁBasePageǁwait_for_page_load__mutmut_24,
-        "xǁBasePageǁwait_for_page_load__mutmut_25": xǁBasePageǁwait_for_page_load__mutmut_25,
-        "xǁBasePageǁwait_for_page_load__mutmut_26": xǁBasePageǁwait_for_page_load__mutmut_26,
-        "xǁBasePageǁwait_for_page_load__mutmut_27": xǁBasePageǁwait_for_page_load__mutmut_27,
-        "xǁBasePageǁwait_for_page_load__mutmut_28": xǁBasePageǁwait_for_page_load__mutmut_28,
-        "xǁBasePageǁwait_for_page_load__mutmut_29": xǁBasePageǁwait_for_page_load__mutmut_29,
-        "xǁBasePageǁwait_for_page_load__mutmut_30": xǁBasePageǁwait_for_page_load__mutmut_30,
-        "xǁBasePageǁwait_for_page_load__mutmut_31": xǁBasePageǁwait_for_page_load__mutmut_31,
-        "xǁBasePageǁwait_for_page_load__mutmut_32": xǁBasePageǁwait_for_page_load__mutmut_32,
-        "xǁBasePageǁwait_for_page_load__mutmut_33": xǁBasePageǁwait_for_page_load__mutmut_33,
-        "xǁBasePageǁwait_for_page_load__mutmut_34": xǁBasePageǁwait_for_page_load__mutmut_34,
-        "xǁBasePageǁwait_for_page_load__mutmut_35": xǁBasePageǁwait_for_page_load__mutmut_35,
-        "xǁBasePageǁwait_for_page_load__mutmut_36": xǁBasePageǁwait_for_page_load__mutmut_36,
-        "xǁBasePageǁwait_for_page_load__mutmut_37": xǁBasePageǁwait_for_page_load__mutmut_37,
+        "xǁBasePageǁwait_for_page_load__mutmut_1": (
+            xǁBasePageǁwait_for_page_load__mutmut_1
+        ),
+        "xǁBasePageǁwait_for_page_load__mutmut_2": (
+            xǁBasePageǁwait_for_page_load__mutmut_2
+        ),
+        "xǁBasePageǁwait_for_page_load__mutmut_3": (
+            xǁBasePageǁwait_for_page_load__mutmut_3
+        ),
+        "xǁBasePageǁwait_for_page_load__mutmut_4": (
+            xǁBasePageǁwait_for_page_load__mutmut_4
+        ),
+        "xǁBasePageǁwait_for_page_load__mutmut_5": (
+            xǁBasePageǁwait_for_page_load__mutmut_5
+        ),
+        "xǁBasePageǁwait_for_page_load__mutmut_6": (
+            xǁBasePageǁwait_for_page_load__mutmut_6
+        ),
+        "xǁBasePageǁwait_for_page_load__mutmut_7": (
+            xǁBasePageǁwait_for_page_load__mutmut_7
+        ),
+        "xǁBasePageǁwait_for_page_load__mutmut_8": (
+            xǁBasePageǁwait_for_page_load__mutmut_8
+        ),
+        "xǁBasePageǁwait_for_page_load__mutmut_9": (
+            xǁBasePageǁwait_for_page_load__mutmut_9
+        ),
+        "xǁBasePageǁwait_for_page_load__mutmut_10": (
+            xǁBasePageǁwait_for_page_load__mutmut_10
+        ),
+        "xǁBasePageǁwait_for_page_load__mutmut_11": (
+            xǁBasePageǁwait_for_page_load__mutmut_11
+        ),
+        "xǁBasePageǁwait_for_page_load__mutmut_12": (
+            xǁBasePageǁwait_for_page_load__mutmut_12
+        ),
+        "xǁBasePageǁwait_for_page_load__mutmut_13": (
+            xǁBasePageǁwait_for_page_load__mutmut_13
+        ),
+        "xǁBasePageǁwait_for_page_load__mutmut_14": (
+            xǁBasePageǁwait_for_page_load__mutmut_14
+        ),
+        "xǁBasePageǁwait_for_page_load__mutmut_15": (
+            xǁBasePageǁwait_for_page_load__mutmut_15
+        ),
+        "xǁBasePageǁwait_for_page_load__mutmut_16": (
+            xǁBasePageǁwait_for_page_load__mutmut_16
+        ),
+        "xǁBasePageǁwait_for_page_load__mutmut_17": (
+            xǁBasePageǁwait_for_page_load__mutmut_17
+        ),
+        "xǁBasePageǁwait_for_page_load__mutmut_18": (
+            xǁBasePageǁwait_for_page_load__mutmut_18
+        ),
+        "xǁBasePageǁwait_for_page_load__mutmut_19": (
+            xǁBasePageǁwait_for_page_load__mutmut_19
+        ),
+        "xǁBasePageǁwait_for_page_load__mutmut_20": (
+            xǁBasePageǁwait_for_page_load__mutmut_20
+        ),
+        "xǁBasePageǁwait_for_page_load__mutmut_21": (
+            xǁBasePageǁwait_for_page_load__mutmut_21
+        ),
+        "xǁBasePageǁwait_for_page_load__mutmut_22": (
+            xǁBasePageǁwait_for_page_load__mutmut_22
+        ),
+        "xǁBasePageǁwait_for_page_load__mutmut_23": (
+            xǁBasePageǁwait_for_page_load__mutmut_23
+        ),
+        "xǁBasePageǁwait_for_page_load__mutmut_24": (
+            xǁBasePageǁwait_for_page_load__mutmut_24
+        ),
+        "xǁBasePageǁwait_for_page_load__mutmut_25": (
+            xǁBasePageǁwait_for_page_load__mutmut_25
+        ),
+        "xǁBasePageǁwait_for_page_load__mutmut_26": (
+            xǁBasePageǁwait_for_page_load__mutmut_26
+        ),
+        "xǁBasePageǁwait_for_page_load__mutmut_27": (
+            xǁBasePageǁwait_for_page_load__mutmut_27
+        ),
+        "xǁBasePageǁwait_for_page_load__mutmut_28": (
+            xǁBasePageǁwait_for_page_load__mutmut_28
+        ),
+        "xǁBasePageǁwait_for_page_load__mutmut_29": (
+            xǁBasePageǁwait_for_page_load__mutmut_29
+        ),
+        "xǁBasePageǁwait_for_page_load__mutmut_30": (
+            xǁBasePageǁwait_for_page_load__mutmut_30
+        ),
+        "xǁBasePageǁwait_for_page_load__mutmut_31": (
+            xǁBasePageǁwait_for_page_load__mutmut_31
+        ),
+        "xǁBasePageǁwait_for_page_load__mutmut_32": (
+            xǁBasePageǁwait_for_page_load__mutmut_32
+        ),
+        "xǁBasePageǁwait_for_page_load__mutmut_33": (
+            xǁBasePageǁwait_for_page_load__mutmut_33
+        ),
+        "xǁBasePageǁwait_for_page_load__mutmut_34": (
+            xǁBasePageǁwait_for_page_load__mutmut_34
+        ),
+        "xǁBasePageǁwait_for_page_load__mutmut_35": (
+            xǁBasePageǁwait_for_page_load__mutmut_35
+        ),
+        "xǁBasePageǁwait_for_page_load__mutmut_36": (
+            xǁBasePageǁwait_for_page_load__mutmut_36
+        ),
+        "xǁBasePageǁwait_for_page_load__mutmut_37": (
+            xǁBasePageǁwait_for_page_load__mutmut_37
+        ),
     }
 
     def wait_for_page_load(self, *args, **kwargs):
@@ -2326,7 +2400,7 @@ class BasePage(ABC):
         """
         timeout = timeout or self.timeout
         try:
-            wait = WebDriverWait(self.driver, timeout)
+            _wait = WebDriverWait(self.driver, timeout)
             by, value = locator.selenium_locator
             elements = None
             return [BaseElement(self.driver, locator, timeout) for _ in elements]
@@ -2589,28 +2663,72 @@ class BasePage(ABC):
             raise ElementNotFoundError(str(None), timeout) from e
 
     xǁBasePageǁwait_for_elements__mutmut_mutants: ClassVar[MutantDict] = {
-        "xǁBasePageǁwait_for_elements__mutmut_1": xǁBasePageǁwait_for_elements__mutmut_1,
-        "xǁBasePageǁwait_for_elements__mutmut_2": xǁBasePageǁwait_for_elements__mutmut_2,
-        "xǁBasePageǁwait_for_elements__mutmut_3": xǁBasePageǁwait_for_elements__mutmut_3,
-        "xǁBasePageǁwait_for_elements__mutmut_4": xǁBasePageǁwait_for_elements__mutmut_4,
-        "xǁBasePageǁwait_for_elements__mutmut_5": xǁBasePageǁwait_for_elements__mutmut_5,
-        "xǁBasePageǁwait_for_elements__mutmut_6": xǁBasePageǁwait_for_elements__mutmut_6,
-        "xǁBasePageǁwait_for_elements__mutmut_7": xǁBasePageǁwait_for_elements__mutmut_7,
-        "xǁBasePageǁwait_for_elements__mutmut_8": xǁBasePageǁwait_for_elements__mutmut_8,
-        "xǁBasePageǁwait_for_elements__mutmut_9": xǁBasePageǁwait_for_elements__mutmut_9,
-        "xǁBasePageǁwait_for_elements__mutmut_10": xǁBasePageǁwait_for_elements__mutmut_10,
-        "xǁBasePageǁwait_for_elements__mutmut_11": xǁBasePageǁwait_for_elements__mutmut_11,
-        "xǁBasePageǁwait_for_elements__mutmut_12": xǁBasePageǁwait_for_elements__mutmut_12,
-        "xǁBasePageǁwait_for_elements__mutmut_13": xǁBasePageǁwait_for_elements__mutmut_13,
-        "xǁBasePageǁwait_for_elements__mutmut_14": xǁBasePageǁwait_for_elements__mutmut_14,
-        "xǁBasePageǁwait_for_elements__mutmut_15": xǁBasePageǁwait_for_elements__mutmut_15,
-        "xǁBasePageǁwait_for_elements__mutmut_16": xǁBasePageǁwait_for_elements__mutmut_16,
-        "xǁBasePageǁwait_for_elements__mutmut_17": xǁBasePageǁwait_for_elements__mutmut_17,
-        "xǁBasePageǁwait_for_elements__mutmut_18": xǁBasePageǁwait_for_elements__mutmut_18,
-        "xǁBasePageǁwait_for_elements__mutmut_19": xǁBasePageǁwait_for_elements__mutmut_19,
-        "xǁBasePageǁwait_for_elements__mutmut_20": xǁBasePageǁwait_for_elements__mutmut_20,
-        "xǁBasePageǁwait_for_elements__mutmut_21": xǁBasePageǁwait_for_elements__mutmut_21,
-        "xǁBasePageǁwait_for_elements__mutmut_22": xǁBasePageǁwait_for_elements__mutmut_22,
+        "xǁBasePageǁwait_for_elements__mutmut_1": (
+            xǁBasePageǁwait_for_elements__mutmut_1
+        ),
+        "xǁBasePageǁwait_for_elements__mutmut_2": (
+            xǁBasePageǁwait_for_elements__mutmut_2
+        ),
+        "xǁBasePageǁwait_for_elements__mutmut_3": (
+            xǁBasePageǁwait_for_elements__mutmut_3
+        ),
+        "xǁBasePageǁwait_for_elements__mutmut_4": (
+            xǁBasePageǁwait_for_elements__mutmut_4
+        ),
+        "xǁBasePageǁwait_for_elements__mutmut_5": (
+            xǁBasePageǁwait_for_elements__mutmut_5
+        ),
+        "xǁBasePageǁwait_for_elements__mutmut_6": (
+            xǁBasePageǁwait_for_elements__mutmut_6
+        ),
+        "xǁBasePageǁwait_for_elements__mutmut_7": (
+            xǁBasePageǁwait_for_elements__mutmut_7
+        ),
+        "xǁBasePageǁwait_for_elements__mutmut_8": (
+            xǁBasePageǁwait_for_elements__mutmut_8
+        ),
+        "xǁBasePageǁwait_for_elements__mutmut_9": (
+            xǁBasePageǁwait_for_elements__mutmut_9
+        ),
+        "xǁBasePageǁwait_for_elements__mutmut_10": (
+            xǁBasePageǁwait_for_elements__mutmut_10
+        ),
+        "xǁBasePageǁwait_for_elements__mutmut_11": (
+            xǁBasePageǁwait_for_elements__mutmut_11
+        ),
+        "xǁBasePageǁwait_for_elements__mutmut_12": (
+            xǁBasePageǁwait_for_elements__mutmut_12
+        ),
+        "xǁBasePageǁwait_for_elements__mutmut_13": (
+            xǁBasePageǁwait_for_elements__mutmut_13
+        ),
+        "xǁBasePageǁwait_for_elements__mutmut_14": (
+            xǁBasePageǁwait_for_elements__mutmut_14
+        ),
+        "xǁBasePageǁwait_for_elements__mutmut_15": (
+            xǁBasePageǁwait_for_elements__mutmut_15
+        ),
+        "xǁBasePageǁwait_for_elements__mutmut_16": (
+            xǁBasePageǁwait_for_elements__mutmut_16
+        ),
+        "xǁBasePageǁwait_for_elements__mutmut_17": (
+            xǁBasePageǁwait_for_elements__mutmut_17
+        ),
+        "xǁBasePageǁwait_for_elements__mutmut_18": (
+            xǁBasePageǁwait_for_elements__mutmut_18
+        ),
+        "xǁBasePageǁwait_for_elements__mutmut_19": (
+            xǁBasePageǁwait_for_elements__mutmut_19
+        ),
+        "xǁBasePageǁwait_for_elements__mutmut_20": (
+            xǁBasePageǁwait_for_elements__mutmut_20
+        ),
+        "xǁBasePageǁwait_for_elements__mutmut_21": (
+            xǁBasePageǁwait_for_elements__mutmut_21
+        ),
+        "xǁBasePageǁwait_for_elements__mutmut_22": (
+            xǁBasePageǁwait_for_elements__mutmut_22
+        ),
     }
 
     def wait_for_elements(self, *args, **kwargs):
@@ -2705,13 +2823,27 @@ class BasePage(ABC):
             return True
 
     xǁBasePageǁis_element_present__mutmut_mutants: ClassVar[MutantDict] = {
-        "xǁBasePageǁis_element_present__mutmut_1": xǁBasePageǁis_element_present__mutmut_1,
-        "xǁBasePageǁis_element_present__mutmut_2": xǁBasePageǁis_element_present__mutmut_2,
-        "xǁBasePageǁis_element_present__mutmut_3": xǁBasePageǁis_element_present__mutmut_3,
-        "xǁBasePageǁis_element_present__mutmut_4": xǁBasePageǁis_element_present__mutmut_4,
-        "xǁBasePageǁis_element_present__mutmut_5": xǁBasePageǁis_element_present__mutmut_5,
-        "xǁBasePageǁis_element_present__mutmut_6": xǁBasePageǁis_element_present__mutmut_6,
-        "xǁBasePageǁis_element_present__mutmut_7": xǁBasePageǁis_element_present__mutmut_7,
+        "xǁBasePageǁis_element_present__mutmut_1": (
+            xǁBasePageǁis_element_present__mutmut_1
+        ),
+        "xǁBasePageǁis_element_present__mutmut_2": (
+            xǁBasePageǁis_element_present__mutmut_2
+        ),
+        "xǁBasePageǁis_element_present__mutmut_3": (
+            xǁBasePageǁis_element_present__mutmut_3
+        ),
+        "xǁBasePageǁis_element_present__mutmut_4": (
+            xǁBasePageǁis_element_present__mutmut_4
+        ),
+        "xǁBasePageǁis_element_present__mutmut_5": (
+            xǁBasePageǁis_element_present__mutmut_5
+        ),
+        "xǁBasePageǁis_element_present__mutmut_6": (
+            xǁBasePageǁis_element_present__mutmut_6
+        ),
+        "xǁBasePageǁis_element_present__mutmut_7": (
+            xǁBasePageǁis_element_present__mutmut_7
+        ),
     }
 
     def is_element_present(self, *args, **kwargs):
@@ -2817,15 +2949,33 @@ class BasePage(ABC):
             return True
 
     xǁBasePageǁis_element_visible__mutmut_mutants: ClassVar[MutantDict] = {
-        "xǁBasePageǁis_element_visible__mutmut_1": xǁBasePageǁis_element_visible__mutmut_1,
-        "xǁBasePageǁis_element_visible__mutmut_2": xǁBasePageǁis_element_visible__mutmut_2,
-        "xǁBasePageǁis_element_visible__mutmut_3": xǁBasePageǁis_element_visible__mutmut_3,
-        "xǁBasePageǁis_element_visible__mutmut_4": xǁBasePageǁis_element_visible__mutmut_4,
-        "xǁBasePageǁis_element_visible__mutmut_5": xǁBasePageǁis_element_visible__mutmut_5,
-        "xǁBasePageǁis_element_visible__mutmut_6": xǁBasePageǁis_element_visible__mutmut_6,
-        "xǁBasePageǁis_element_visible__mutmut_7": xǁBasePageǁis_element_visible__mutmut_7,
-        "xǁBasePageǁis_element_visible__mutmut_8": xǁBasePageǁis_element_visible__mutmut_8,
-        "xǁBasePageǁis_element_visible__mutmut_9": xǁBasePageǁis_element_visible__mutmut_9,
+        "xǁBasePageǁis_element_visible__mutmut_1": (
+            xǁBasePageǁis_element_visible__mutmut_1
+        ),
+        "xǁBasePageǁis_element_visible__mutmut_2": (
+            xǁBasePageǁis_element_visible__mutmut_2
+        ),
+        "xǁBasePageǁis_element_visible__mutmut_3": (
+            xǁBasePageǁis_element_visible__mutmut_3
+        ),
+        "xǁBasePageǁis_element_visible__mutmut_4": (
+            xǁBasePageǁis_element_visible__mutmut_4
+        ),
+        "xǁBasePageǁis_element_visible__mutmut_5": (
+            xǁBasePageǁis_element_visible__mutmut_5
+        ),
+        "xǁBasePageǁis_element_visible__mutmut_6": (
+            xǁBasePageǁis_element_visible__mutmut_6
+        ),
+        "xǁBasePageǁis_element_visible__mutmut_7": (
+            xǁBasePageǁis_element_visible__mutmut_7
+        ),
+        "xǁBasePageǁis_element_visible__mutmut_8": (
+            xǁBasePageǁis_element_visible__mutmut_8
+        ),
+        "xǁBasePageǁis_element_visible__mutmut_9": (
+            xǁBasePageǁis_element_visible__mutmut_9
+        ),
     }
 
     def is_element_visible(self, *args, **kwargs):
@@ -3483,7 +3633,7 @@ class BasePage(ABC):
             Path to the saved screenshot
         """
         if filename is None:
-            timestamp = time.strftime("%Y%m%d_%H%M%S")
+            _timestamp = time.strftime("%Y%m%d_%H%M%S")
             filename = None
 
         screenshot_path = Path(filename)
@@ -4384,7 +4534,7 @@ class BasePage(ABC):
             Alert text if alert was present, None otherwise
         """
         try:
-            wait = WebDriverWait(self.driver, timeout)
+            _wait = WebDriverWait(self.driver, timeout)
             alert = None
             alert_text = alert.text
 
@@ -4674,16 +4824,36 @@ class BasePage(ABC):
         return self
 
     xǁBasePageǁswitch_to_new_window__mutmut_mutants: ClassVar[MutantDict] = {
-        "xǁBasePageǁswitch_to_new_window__mutmut_1": xǁBasePageǁswitch_to_new_window__mutmut_1,
-        "xǁBasePageǁswitch_to_new_window__mutmut_2": xǁBasePageǁswitch_to_new_window__mutmut_2,
-        "xǁBasePageǁswitch_to_new_window__mutmut_3": xǁBasePageǁswitch_to_new_window__mutmut_3,
-        "xǁBasePageǁswitch_to_new_window__mutmut_4": xǁBasePageǁswitch_to_new_window__mutmut_4,
-        "xǁBasePageǁswitch_to_new_window__mutmut_5": xǁBasePageǁswitch_to_new_window__mutmut_5,
-        "xǁBasePageǁswitch_to_new_window__mutmut_6": xǁBasePageǁswitch_to_new_window__mutmut_6,
-        "xǁBasePageǁswitch_to_new_window__mutmut_7": xǁBasePageǁswitch_to_new_window__mutmut_7,
-        "xǁBasePageǁswitch_to_new_window__mutmut_8": xǁBasePageǁswitch_to_new_window__mutmut_8,
-        "xǁBasePageǁswitch_to_new_window__mutmut_9": xǁBasePageǁswitch_to_new_window__mutmut_9,
-        "xǁBasePageǁswitch_to_new_window__mutmut_10": xǁBasePageǁswitch_to_new_window__mutmut_10,
+        "xǁBasePageǁswitch_to_new_window__mutmut_1": (
+            xǁBasePageǁswitch_to_new_window__mutmut_1
+        ),
+        "xǁBasePageǁswitch_to_new_window__mutmut_2": (
+            xǁBasePageǁswitch_to_new_window__mutmut_2
+        ),
+        "xǁBasePageǁswitch_to_new_window__mutmut_3": (
+            xǁBasePageǁswitch_to_new_window__mutmut_3
+        ),
+        "xǁBasePageǁswitch_to_new_window__mutmut_4": (
+            xǁBasePageǁswitch_to_new_window__mutmut_4
+        ),
+        "xǁBasePageǁswitch_to_new_window__mutmut_5": (
+            xǁBasePageǁswitch_to_new_window__mutmut_5
+        ),
+        "xǁBasePageǁswitch_to_new_window__mutmut_6": (
+            xǁBasePageǁswitch_to_new_window__mutmut_6
+        ),
+        "xǁBasePageǁswitch_to_new_window__mutmut_7": (
+            xǁBasePageǁswitch_to_new_window__mutmut_7
+        ),
+        "xǁBasePageǁswitch_to_new_window__mutmut_8": (
+            xǁBasePageǁswitch_to_new_window__mutmut_8
+        ),
+        "xǁBasePageǁswitch_to_new_window__mutmut_9": (
+            xǁBasePageǁswitch_to_new_window__mutmut_9
+        ),
+        "xǁBasePageǁswitch_to_new_window__mutmut_10": (
+            xǁBasePageǁswitch_to_new_window__mutmut_10
+        ),
     }
 
     def switch_to_new_window(self, *args, **kwargs):
@@ -4807,16 +4977,36 @@ class BasePage(ABC):
         return self
 
     xǁBasePageǁclose_current_window__mutmut_mutants: ClassVar[MutantDict] = {
-        "xǁBasePageǁclose_current_window__mutmut_1": xǁBasePageǁclose_current_window__mutmut_1,
-        "xǁBasePageǁclose_current_window__mutmut_2": xǁBasePageǁclose_current_window__mutmut_2,
-        "xǁBasePageǁclose_current_window__mutmut_3": xǁBasePageǁclose_current_window__mutmut_3,
-        "xǁBasePageǁclose_current_window__mutmut_4": xǁBasePageǁclose_current_window__mutmut_4,
-        "xǁBasePageǁclose_current_window__mutmut_5": xǁBasePageǁclose_current_window__mutmut_5,
-        "xǁBasePageǁclose_current_window__mutmut_6": xǁBasePageǁclose_current_window__mutmut_6,
-        "xǁBasePageǁclose_current_window__mutmut_7": xǁBasePageǁclose_current_window__mutmut_7,
-        "xǁBasePageǁclose_current_window__mutmut_8": xǁBasePageǁclose_current_window__mutmut_8,
-        "xǁBasePageǁclose_current_window__mutmut_9": xǁBasePageǁclose_current_window__mutmut_9,
-        "xǁBasePageǁclose_current_window__mutmut_10": xǁBasePageǁclose_current_window__mutmut_10,
+        "xǁBasePageǁclose_current_window__mutmut_1": (
+            xǁBasePageǁclose_current_window__mutmut_1
+        ),
+        "xǁBasePageǁclose_current_window__mutmut_2": (
+            xǁBasePageǁclose_current_window__mutmut_2
+        ),
+        "xǁBasePageǁclose_current_window__mutmut_3": (
+            xǁBasePageǁclose_current_window__mutmut_3
+        ),
+        "xǁBasePageǁclose_current_window__mutmut_4": (
+            xǁBasePageǁclose_current_window__mutmut_4
+        ),
+        "xǁBasePageǁclose_current_window__mutmut_5": (
+            xǁBasePageǁclose_current_window__mutmut_5
+        ),
+        "xǁBasePageǁclose_current_window__mutmut_6": (
+            xǁBasePageǁclose_current_window__mutmut_6
+        ),
+        "xǁBasePageǁclose_current_window__mutmut_7": (
+            xǁBasePageǁclose_current_window__mutmut_7
+        ),
+        "xǁBasePageǁclose_current_window__mutmut_8": (
+            xǁBasePageǁclose_current_window__mutmut_8
+        ),
+        "xǁBasePageǁclose_current_window__mutmut_9": (
+            xǁBasePageǁclose_current_window__mutmut_9
+        ),
+        "xǁBasePageǁclose_current_window__mutmut_10": (
+            xǁBasePageǁclose_current_window__mutmut_10
+        ),
     }
 
     def close_current_window(self, *args, **kwargs):

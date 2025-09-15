@@ -219,7 +219,10 @@ class TestClickableElements:
         assert result == button
 
     def test_click_when_element_not_interactable_expects_error(self):
-        """Test click raises ElementNotInteractableError when element not interactable."""
+        """
+        Test click raises ElementNotInteractableError when element not
+        interactable.
+        """
         mock_driver = Mock()
         mock_locator = Mock(spec=Locator)
         mock_web_element = Mock()

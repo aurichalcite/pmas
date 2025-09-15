@@ -4,8 +4,9 @@ Base abstractions for web elements with common interaction patterns.
 
 import logging
 import time
-from abc import ABC
-from typing import Any
+from collections.abc import Callable
+from inspect import signature as _mutmut_signature
+from typing import Annotated, Any, ClassVar
 
 from selenium.common.exceptions import (
     ElementNotInteractableException,
@@ -21,9 +22,7 @@ from .errors import ElementNotFoundError, ElementNotInteractableError
 from .locators import Locator
 
 logger = logging.getLogger(__name__)
-from collections.abc import Callable
-from inspect import signature as _mutmut_signature
-from typing import Annotated, ClassVar
+
 
 MutantDict = Annotated[dict[str, Callable], "Mutant"]
 
@@ -56,7 +55,7 @@ def _mutmut_trampoline(orig, mutants, call_args, call_kwargs, self_arg=None):
     return result
 
 
-class BaseElement(ABC):
+class BaseElement:
     """
     Abstract base class for all web element wrappers.
     Provides common functionality for element interaction with robust error handling.
@@ -220,7 +219,7 @@ class BaseElement(ABC):
     def xǁBaseElementǁ_find_element__mutmut_7(self) -> WebElement:
         """Find the element using the locator."""
         try:
-            wait = WebDriverWait(self.driver, self.timeout)
+            _wait = WebDriverWait(self.driver, self.timeout)
             by, value = self.locator.selenium_locator
             element = None
             logger.debug(f"Found element: {self.locator}")
@@ -328,12 +327,24 @@ class BaseElement(ABC):
         "xǁBaseElementǁ_find_element__mutmut_7": xǁBaseElementǁ_find_element__mutmut_7,
         "xǁBaseElementǁ_find_element__mutmut_8": xǁBaseElementǁ_find_element__mutmut_8,
         "xǁBaseElementǁ_find_element__mutmut_9": xǁBaseElementǁ_find_element__mutmut_9,
-        "xǁBaseElementǁ_find_element__mutmut_10": xǁBaseElementǁ_find_element__mutmut_10,
-        "xǁBaseElementǁ_find_element__mutmut_11": xǁBaseElementǁ_find_element__mutmut_11,
-        "xǁBaseElementǁ_find_element__mutmut_12": xǁBaseElementǁ_find_element__mutmut_12,
-        "xǁBaseElementǁ_find_element__mutmut_13": xǁBaseElementǁ_find_element__mutmut_13,
-        "xǁBaseElementǁ_find_element__mutmut_14": xǁBaseElementǁ_find_element__mutmut_14,
-        "xǁBaseElementǁ_find_element__mutmut_15": xǁBaseElementǁ_find_element__mutmut_15,
+        "xǁBaseElementǁ_find_element__mutmut_10": (
+            xǁBaseElementǁ_find_element__mutmut_10
+        ),
+        "xǁBaseElementǁ_find_element__mutmut_11": (
+            xǁBaseElementǁ_find_element__mutmut_11
+        ),
+        "xǁBaseElementǁ_find_element__mutmut_12": (
+            xǁBaseElementǁ_find_element__mutmut_12
+        ),
+        "xǁBaseElementǁ_find_element__mutmut_13": (
+            xǁBaseElementǁ_find_element__mutmut_13
+        ),
+        "xǁBaseElementǁ_find_element__mutmut_14": (
+            xǁBaseElementǁ_find_element__mutmut_14
+        ),
+        "xǁBaseElementǁ_find_element__mutmut_15": (
+            xǁBaseElementǁ_find_element__mutmut_15
+        ),
     }
 
     def _find_element(self, *args, **kwargs):
@@ -640,20 +651,48 @@ class BaseElement(ABC):
             ) from e
 
     xǁBaseElementǁwait_for_visible__mutmut_mutants: ClassVar[MutantDict] = {
-        "xǁBaseElementǁwait_for_visible__mutmut_1": xǁBaseElementǁwait_for_visible__mutmut_1,
-        "xǁBaseElementǁwait_for_visible__mutmut_2": xǁBaseElementǁwait_for_visible__mutmut_2,
-        "xǁBaseElementǁwait_for_visible__mutmut_3": xǁBaseElementǁwait_for_visible__mutmut_3,
-        "xǁBaseElementǁwait_for_visible__mutmut_4": xǁBaseElementǁwait_for_visible__mutmut_4,
-        "xǁBaseElementǁwait_for_visible__mutmut_5": xǁBaseElementǁwait_for_visible__mutmut_5,
-        "xǁBaseElementǁwait_for_visible__mutmut_6": xǁBaseElementǁwait_for_visible__mutmut_6,
-        "xǁBaseElementǁwait_for_visible__mutmut_7": xǁBaseElementǁwait_for_visible__mutmut_7,
-        "xǁBaseElementǁwait_for_visible__mutmut_8": xǁBaseElementǁwait_for_visible__mutmut_8,
-        "xǁBaseElementǁwait_for_visible__mutmut_9": xǁBaseElementǁwait_for_visible__mutmut_9,
-        "xǁBaseElementǁwait_for_visible__mutmut_10": xǁBaseElementǁwait_for_visible__mutmut_10,
-        "xǁBaseElementǁwait_for_visible__mutmut_11": xǁBaseElementǁwait_for_visible__mutmut_11,
-        "xǁBaseElementǁwait_for_visible__mutmut_12": xǁBaseElementǁwait_for_visible__mutmut_12,
-        "xǁBaseElementǁwait_for_visible__mutmut_13": xǁBaseElementǁwait_for_visible__mutmut_13,
-        "xǁBaseElementǁwait_for_visible__mutmut_14": xǁBaseElementǁwait_for_visible__mutmut_14,
+        "xǁBaseElementǁwait_for_visible__mutmut_1": (
+            xǁBaseElementǁwait_for_visible__mutmut_1
+        ),
+        "xǁBaseElementǁwait_for_visible__mutmut_2": (
+            xǁBaseElementǁwait_for_visible__mutmut_2
+        ),
+        "xǁBaseElementǁwait_for_visible__mutmut_3": (
+            xǁBaseElementǁwait_for_visible__mutmut_3
+        ),
+        "xǁBaseElementǁwait_for_visible__mutmut_4": (
+            xǁBaseElementǁwait_for_visible__mutmut_4
+        ),
+        "xǁBaseElementǁwait_for_visible__mutmut_5": (
+            xǁBaseElementǁwait_for_visible__mutmut_5
+        ),
+        "xǁBaseElementǁwait_for_visible__mutmut_6": (
+            xǁBaseElementǁwait_for_visible__mutmut_6
+        ),
+        "xǁBaseElementǁwait_for_visible__mutmut_7": (
+            xǁBaseElementǁwait_for_visible__mutmut_7
+        ),
+        "xǁBaseElementǁwait_for_visible__mutmut_8": (
+            xǁBaseElementǁwait_for_visible__mutmut_8
+        ),
+        "xǁBaseElementǁwait_for_visible__mutmut_9": (
+            xǁBaseElementǁwait_for_visible__mutmut_9
+        ),
+        "xǁBaseElementǁwait_for_visible__mutmut_10": (
+            xǁBaseElementǁwait_for_visible__mutmut_10
+        ),
+        "xǁBaseElementǁwait_for_visible__mutmut_11": (
+            xǁBaseElementǁwait_for_visible__mutmut_11
+        ),
+        "xǁBaseElementǁwait_for_visible__mutmut_12": (
+            xǁBaseElementǁwait_for_visible__mutmut_12
+        ),
+        "xǁBaseElementǁwait_for_visible__mutmut_13": (
+            xǁBaseElementǁwait_for_visible__mutmut_13
+        ),
+        "xǁBaseElementǁwait_for_visible__mutmut_14": (
+            xǁBaseElementǁwait_for_visible__mutmut_14
+        ),
     }
 
     def wait_for_visible(self, *args, **kwargs):
@@ -877,20 +916,48 @@ class BaseElement(ABC):
             ) from e
 
     xǁBaseElementǁwait_for_clickable__mutmut_mutants: ClassVar[MutantDict] = {
-        "xǁBaseElementǁwait_for_clickable__mutmut_1": xǁBaseElementǁwait_for_clickable__mutmut_1,
-        "xǁBaseElementǁwait_for_clickable__mutmut_2": xǁBaseElementǁwait_for_clickable__mutmut_2,
-        "xǁBaseElementǁwait_for_clickable__mutmut_3": xǁBaseElementǁwait_for_clickable__mutmut_3,
-        "xǁBaseElementǁwait_for_clickable__mutmut_4": xǁBaseElementǁwait_for_clickable__mutmut_4,
-        "xǁBaseElementǁwait_for_clickable__mutmut_5": xǁBaseElementǁwait_for_clickable__mutmut_5,
-        "xǁBaseElementǁwait_for_clickable__mutmut_6": xǁBaseElementǁwait_for_clickable__mutmut_6,
-        "xǁBaseElementǁwait_for_clickable__mutmut_7": xǁBaseElementǁwait_for_clickable__mutmut_7,
-        "xǁBaseElementǁwait_for_clickable__mutmut_8": xǁBaseElementǁwait_for_clickable__mutmut_8,
-        "xǁBaseElementǁwait_for_clickable__mutmut_9": xǁBaseElementǁwait_for_clickable__mutmut_9,
-        "xǁBaseElementǁwait_for_clickable__mutmut_10": xǁBaseElementǁwait_for_clickable__mutmut_10,
-        "xǁBaseElementǁwait_for_clickable__mutmut_11": xǁBaseElementǁwait_for_clickable__mutmut_11,
-        "xǁBaseElementǁwait_for_clickable__mutmut_12": xǁBaseElementǁwait_for_clickable__mutmut_12,
-        "xǁBaseElementǁwait_for_clickable__mutmut_13": xǁBaseElementǁwait_for_clickable__mutmut_13,
-        "xǁBaseElementǁwait_for_clickable__mutmut_14": xǁBaseElementǁwait_for_clickable__mutmut_14,
+        "xǁBaseElementǁwait_for_clickable__mutmut_1": (
+            xǁBaseElementǁwait_for_clickable__mutmut_1
+        ),
+        "xǁBaseElementǁwait_for_clickable__mutmut_2": (
+            xǁBaseElementǁwait_for_clickable__mutmut_2
+        ),
+        "xǁBaseElementǁwait_for_clickable__mutmut_3": (
+            xǁBaseElementǁwait_for_clickable__mutmut_3
+        ),
+        "xǁBaseElementǁwait_for_clickable__mutmut_4": (
+            xǁBaseElementǁwait_for_clickable__mutmut_4
+        ),
+        "xǁBaseElementǁwait_for_clickable__mutmut_5": (
+            xǁBaseElementǁwait_for_clickable__mutmut_5
+        ),
+        "xǁBaseElementǁwait_for_clickable__mutmut_6": (
+            xǁBaseElementǁwait_for_clickable__mutmut_6
+        ),
+        "xǁBaseElementǁwait_for_clickable__mutmut_7": (
+            xǁBaseElementǁwait_for_clickable__mutmut_7
+        ),
+        "xǁBaseElementǁwait_for_clickable__mutmut_8": (
+            xǁBaseElementǁwait_for_clickable__mutmut_8
+        ),
+        "xǁBaseElementǁwait_for_clickable__mutmut_9": (
+            xǁBaseElementǁwait_for_clickable__mutmut_9
+        ),
+        "xǁBaseElementǁwait_for_clickable__mutmut_10": (
+            xǁBaseElementǁwait_for_clickable__mutmut_10
+        ),
+        "xǁBaseElementǁwait_for_clickable__mutmut_11": (
+            xǁBaseElementǁwait_for_clickable__mutmut_11
+        ),
+        "xǁBaseElementǁwait_for_clickable__mutmut_12": (
+            xǁBaseElementǁwait_for_clickable__mutmut_12
+        ),
+        "xǁBaseElementǁwait_for_clickable__mutmut_13": (
+            xǁBaseElementǁwait_for_clickable__mutmut_13
+        ),
+        "xǁBaseElementǁwait_for_clickable__mutmut_14": (
+            xǁBaseElementǁwait_for_clickable__mutmut_14
+        ),
     }
 
     def wait_for_clickable(self, *args, **kwargs):
@@ -979,15 +1046,33 @@ class BaseElement(ABC):
         return self
 
     xǁBaseElementǁscroll_into_view__mutmut_mutants: ClassVar[MutantDict] = {
-        "xǁBaseElementǁscroll_into_view__mutmut_1": xǁBaseElementǁscroll_into_view__mutmut_1,
-        "xǁBaseElementǁscroll_into_view__mutmut_2": xǁBaseElementǁscroll_into_view__mutmut_2,
-        "xǁBaseElementǁscroll_into_view__mutmut_3": xǁBaseElementǁscroll_into_view__mutmut_3,
-        "xǁBaseElementǁscroll_into_view__mutmut_4": xǁBaseElementǁscroll_into_view__mutmut_4,
-        "xǁBaseElementǁscroll_into_view__mutmut_5": xǁBaseElementǁscroll_into_view__mutmut_5,
-        "xǁBaseElementǁscroll_into_view__mutmut_6": xǁBaseElementǁscroll_into_view__mutmut_6,
-        "xǁBaseElementǁscroll_into_view__mutmut_7": xǁBaseElementǁscroll_into_view__mutmut_7,
-        "xǁBaseElementǁscroll_into_view__mutmut_8": xǁBaseElementǁscroll_into_view__mutmut_8,
-        "xǁBaseElementǁscroll_into_view__mutmut_9": xǁBaseElementǁscroll_into_view__mutmut_9,
+        "xǁBaseElementǁscroll_into_view__mutmut_1": (
+            xǁBaseElementǁscroll_into_view__mutmut_1
+        ),
+        "xǁBaseElementǁscroll_into_view__mutmut_2": (
+            xǁBaseElementǁscroll_into_view__mutmut_2
+        ),
+        "xǁBaseElementǁscroll_into_view__mutmut_3": (
+            xǁBaseElementǁscroll_into_view__mutmut_3
+        ),
+        "xǁBaseElementǁscroll_into_view__mutmut_4": (
+            xǁBaseElementǁscroll_into_view__mutmut_4
+        ),
+        "xǁBaseElementǁscroll_into_view__mutmut_5": (
+            xǁBaseElementǁscroll_into_view__mutmut_5
+        ),
+        "xǁBaseElementǁscroll_into_view__mutmut_6": (
+            xǁBaseElementǁscroll_into_view__mutmut_6
+        ),
+        "xǁBaseElementǁscroll_into_view__mutmut_7": (
+            xǁBaseElementǁscroll_into_view__mutmut_7
+        ),
+        "xǁBaseElementǁscroll_into_view__mutmut_8": (
+            xǁBaseElementǁscroll_into_view__mutmut_8
+        ),
+        "xǁBaseElementǁscroll_into_view__mutmut_9": (
+            xǁBaseElementǁscroll_into_view__mutmut_9
+        ),
     }
 
     def scroll_into_view(self, *args, **kwargs):
@@ -1117,7 +1202,7 @@ class BaseElement(ABC):
 
     def xǁBaseElementǁhighlight__mutmut_9(self, duration: float = 1.0) -> "BaseElement":
         """Highlight the element for debugging purposes."""
-        original_style = self.element.get_attribute("style")
+        _original_style = self.element.get_attribute("style")
         self.driver.execute_script(
             "arguments[0].style.border='3px solid red';",
         )
@@ -1145,7 +1230,7 @@ class BaseElement(ABC):
         self, duration: float = 1.0
     ) -> "BaseElement":
         """Highlight the element for debugging purposes."""
-        original_style = self.element.get_attribute("style")
+        _original_style = self.element.get_attribute("style")
         self.driver.execute_script(
             "ARGUMENTS[0].STYLE.BORDER='3PX SOLID RED';", self.element
         )

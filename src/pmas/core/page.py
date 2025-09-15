@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any, TypeVar
 
 from selenium.common.exceptions import (
+    NoSuchElementException,
     TimeoutException,
 )
 from selenium.webdriver.support import expected_conditions as EC
@@ -88,12 +89,12 @@ class BasePage(ABC):
                     )
                 )
                 logger.debug(f"Page loaded with title: {self.title}")
-            except TimeoutException:
+            except TimeoutException as e:
                 raise PageLoadError(
                     expected_title=str(self.expected_titles),
                     actual_title=self.title,
                     url=self.current_url,
-                )
+                ) from e
 
         # Wait for document ready state
         try:
@@ -165,7 +166,7 @@ class BasePage(ABC):
             by, value = locator.selenium_locator
             self.driver.find_element(by, value)
             return True
-        except:
+        except NoSuchElementException:
             return False
 
     def is_element_visible(self, locator: Locator) -> bool:
@@ -173,7 +174,7 @@ class BasePage(ABC):
         try:
             element = BaseElement(self.driver, locator, 1.0)  # Short timeout
             return element.is_displayed
-        except:
+        except Exception:
             return False
 
     def get_button(self, locator: Locator) -> Button:

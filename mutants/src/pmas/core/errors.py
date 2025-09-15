@@ -109,15 +109,15 @@ class ElementNotFoundError(FrameworkError):
     def xǁElementNotFoundErrorǁ__init____mutmut_2(
         self, locator: str, timeout: float = 10.0, cause: Exception | None = None
     ) -> None:
-        message = None
-        super().__init__(message, cause)
+        _message = None
+        super().__init__(_message, cause)
         self.locator = locator
         self.timeout = timeout
 
     def xǁElementNotFoundErrorǁ__init____mutmut_3(
         self, locator: str, timeout: float = 10.0, cause: Exception | None = None
     ) -> None:
-        message = (
+        _message = (
             f"Element not found using locator '{locator}' within {timeout} seconds"
         )
         super().__init__(None, cause)
@@ -137,7 +137,7 @@ class ElementNotFoundError(FrameworkError):
     def xǁElementNotFoundErrorǁ__init____mutmut_5(
         self, locator: str, timeout: float = 10.0, cause: Exception | None = None
     ) -> None:
-        message = (
+        _message = (
             f"Element not found using locator '{locator}' within {timeout} seconds"
         )
         super().__init__(cause)
@@ -177,14 +177,30 @@ class ElementNotFoundError(FrameworkError):
         self.timeout = None
 
     xǁElementNotFoundErrorǁ__init____mutmut_mutants: ClassVar[MutantDict] = {
-        "xǁElementNotFoundErrorǁ__init____mutmut_1": xǁElementNotFoundErrorǁ__init____mutmut_1,
-        "xǁElementNotFoundErrorǁ__init____mutmut_2": xǁElementNotFoundErrorǁ__init____mutmut_2,
-        "xǁElementNotFoundErrorǁ__init____mutmut_3": xǁElementNotFoundErrorǁ__init____mutmut_3,
-        "xǁElementNotFoundErrorǁ__init____mutmut_4": xǁElementNotFoundErrorǁ__init____mutmut_4,
-        "xǁElementNotFoundErrorǁ__init____mutmut_5": xǁElementNotFoundErrorǁ__init____mutmut_5,
-        "xǁElementNotFoundErrorǁ__init____mutmut_6": xǁElementNotFoundErrorǁ__init____mutmut_6,
-        "xǁElementNotFoundErrorǁ__init____mutmut_7": xǁElementNotFoundErrorǁ__init____mutmut_7,
-        "xǁElementNotFoundErrorǁ__init____mutmut_8": xǁElementNotFoundErrorǁ__init____mutmut_8,
+        "xǁElementNotFoundErrorǁ__init____mutmut_1": (
+            xǁElementNotFoundErrorǁ__init____mutmut_1
+        ),
+        "xǁElementNotFoundErrorǁ__init____mutmut_2": (
+            xǁElementNotFoundErrorǁ__init____mutmut_2
+        ),
+        "xǁElementNotFoundErrorǁ__init____mutmut_3": (
+            xǁElementNotFoundErrorǁ__init____mutmut_3
+        ),
+        "xǁElementNotFoundErrorǁ__init____mutmut_4": (
+            xǁElementNotFoundErrorǁ__init____mutmut_4
+        ),
+        "xǁElementNotFoundErrorǁ__init____mutmut_5": (
+            xǁElementNotFoundErrorǁ__init____mutmut_5
+        ),
+        "xǁElementNotFoundErrorǁ__init____mutmut_6": (
+            xǁElementNotFoundErrorǁ__init____mutmut_6
+        ),
+        "xǁElementNotFoundErrorǁ__init____mutmut_7": (
+            xǁElementNotFoundErrorǁ__init____mutmut_7
+        ),
+        "xǁElementNotFoundErrorǁ__init____mutmut_8": (
+            xǁElementNotFoundErrorǁ__init____mutmut_8
+        ),
     }
 
     def __init__(self, *args, **kwargs):
@@ -223,15 +239,15 @@ class ElementNotInteractableError(FrameworkError):
     def xǁElementNotInteractableErrorǁ__init____mutmut_1(
         self, locator: str, action: str, cause: Exception | None = None
     ) -> None:
-        message = None
-        super().__init__(message, cause)
+        _message = None
+        super().__init__(_message, cause)
         self.locator = locator
         self.action = action
 
     def xǁElementNotInteractableErrorǁ__init____mutmut_2(
         self, locator: str, action: str, cause: Exception | None = None
     ) -> None:
-        message = f"Element '{locator}' is not interactable for action '{action}'"
+        _message = f"Element '{locator}' is not interactable for action '{action}'"
         super().__init__(None, cause)
         self.locator = locator
         self.action = action
@@ -247,7 +263,7 @@ class ElementNotInteractableError(FrameworkError):
     def xǁElementNotInteractableErrorǁ__init____mutmut_4(
         self, locator: str, action: str, cause: Exception | None = None
     ) -> None:
-        message = f"Element '{locator}' is not interactable for action '{action}'"
+        _message = f"Element '{locator}' is not interactable for action '{action}'"
         super().__init__(cause)
         self.locator = locator
         self.action = action
@@ -279,13 +295,27 @@ class ElementNotInteractableError(FrameworkError):
         self.action = None
 
     xǁElementNotInteractableErrorǁ__init____mutmut_mutants: ClassVar[MutantDict] = {
-        "xǁElementNotInteractableErrorǁ__init____mutmut_1": xǁElementNotInteractableErrorǁ__init____mutmut_1,
-        "xǁElementNotInteractableErrorǁ__init____mutmut_2": xǁElementNotInteractableErrorǁ__init____mutmut_2,
-        "xǁElementNotInteractableErrorǁ__init____mutmut_3": xǁElementNotInteractableErrorǁ__init____mutmut_3,
-        "xǁElementNotInteractableErrorǁ__init____mutmut_4": xǁElementNotInteractableErrorǁ__init____mutmut_4,
-        "xǁElementNotInteractableErrorǁ__init____mutmut_5": xǁElementNotInteractableErrorǁ__init____mutmut_5,
-        "xǁElementNotInteractableErrorǁ__init____mutmut_6": xǁElementNotInteractableErrorǁ__init____mutmut_6,
-        "xǁElementNotInteractableErrorǁ__init____mutmut_7": xǁElementNotInteractableErrorǁ__init____mutmut_7,
+        "xǁElementNotInteractableErrorǁ__init____mutmut_1": (
+            xǁElementNotInteractableErrorǁ__init____mutmut_1
+        ),
+        "xǁElementNotInteractableErrorǁ__init____mutmut_2": (
+            xǁElementNotInteractableErrorǁ__init____mutmut_2
+        ),
+        "xǁElementNotInteractableErrorǁ__init____mutmut_3": (
+            xǁElementNotInteractableErrorǁ__init____mutmut_3
+        ),
+        "xǁElementNotInteractableErrorǁ__init____mutmut_4": (
+            xǁElementNotInteractableErrorǁ__init____mutmut_4
+        ),
+        "xǁElementNotInteractableErrorǁ__init____mutmut_5": (
+            xǁElementNotInteractableErrorǁ__init____mutmut_5
+        ),
+        "xǁElementNotInteractableErrorǁ__init____mutmut_6": (
+            xǁElementNotInteractableErrorǁ__init____mutmut_6
+        ),
+        "xǁElementNotInteractableErrorǁ__init____mutmut_7": (
+            xǁElementNotInteractableErrorǁ__init____mutmut_7
+        ),
     }
 
     def __init__(self, *args, **kwargs):
@@ -316,7 +346,10 @@ class PageLoadError(FrameworkError):
     def xǁPageLoadErrorǁ__init____mutmut_orig(
         self, expected_title: str, actual_title: str, url: str
     ) -> None:
-        message = f"Page load failed. Expected title: '{expected_title}', got: '{actual_title}' at URL: {url}"
+        message = (
+            f"Page load failed. Expected title: '{expected_title}', "
+            f"got: '{actual_title}' at URL: {url}"
+        )
         super().__init__(message)
         self.expected_title = expected_title
         self.actual_title = actual_title
@@ -334,7 +367,10 @@ class PageLoadError(FrameworkError):
     def xǁPageLoadErrorǁ__init____mutmut_2(
         self, expected_title: str, actual_title: str, url: str
     ) -> None:
-        message = f"Page load failed. Expected title: '{expected_title}', got: '{actual_title}' at URL: {url}"
+        _message = (
+            f"Page load failed. Expected title: '{expected_title}', "
+            f"got: '{actual_title}' at URL: {url}"
+        )
         super().__init__(None)
         self.expected_title = expected_title
         self.actual_title = actual_title
@@ -343,7 +379,10 @@ class PageLoadError(FrameworkError):
     def xǁPageLoadErrorǁ__init____mutmut_3(
         self, expected_title: str, actual_title: str, url: str
     ) -> None:
-        message = f"Page load failed. Expected title: '{expected_title}', got: '{actual_title}' at URL: {url}"
+        message = (
+            f"Page load failed. Expected title: '{expected_title}', "
+            f"got: '{actual_title}' at URL: {url}"
+        )
         super().__init__(message)
         self.expected_title = None
         self.actual_title = actual_title
@@ -352,7 +391,10 @@ class PageLoadError(FrameworkError):
     def xǁPageLoadErrorǁ__init____mutmut_4(
         self, expected_title: str, actual_title: str, url: str
     ) -> None:
-        message = f"Page load failed. Expected title: '{expected_title}', got: '{actual_title}' at URL: {url}"
+        message = (
+            f"Page load failed. Expected title: '{expected_title}', "
+            f"got: '{actual_title}' at URL: {url}"
+        )
         super().__init__(message)
         self.expected_title = expected_title
         self.actual_title = None
@@ -361,7 +403,10 @@ class PageLoadError(FrameworkError):
     def xǁPageLoadErrorǁ__init____mutmut_5(
         self, expected_title: str, actual_title: str, url: str
     ) -> None:
-        message = f"Page load failed. Expected title: '{expected_title}', got: '{actual_title}' at URL: {url}"
+        message = (
+            f"Page load failed. Expected title: '{expected_title}', "
+            f"got: '{actual_title}' at URL: {url}"
+        )
         super().__init__(message)
         self.expected_title = expected_title
         self.actual_title = actual_title

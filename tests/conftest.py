@@ -155,7 +155,10 @@ def pytest_configure(config):
     # Add filter for TestingConfig collection warning
     config.addinivalue_line(
         "filterwarnings",
-        "ignore:cannot collect test class 'TestingConfig':pytest.PytestCollectionWarning",
+        (
+            "ignore:cannot collect test class 'TestingConfig':"
+            "pytest.PytestCollectionWarning"
+        ),
     )
 
 

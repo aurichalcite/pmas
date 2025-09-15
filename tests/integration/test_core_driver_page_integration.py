@@ -154,12 +154,15 @@ class TestCoreDriverPageIntegration:
         # Test element not found error propagation
         with pytest.raises(ElementNotFoundError):
             button = page.get_button(by_id("nonexistent-button"))
-            button.click()  # This should trigger the element finding and raise the error
+            button.click()  # This should trigger the error
 
     def test_configuration_integration_across_components(
         self, fake_driver: FakeWebDriver, test_config: Config
     ):
-        """Test configuration integration across driver, page, and element components."""
+        """
+        Test configuration integration across driver, page, and element
+        components.
+        """
         page = IntegrationTestPage(
             fake_driver,
             test_config.environment.base_url,
@@ -207,7 +210,7 @@ class TestCoreDriverPageIntegration:
         # Test error propagation through page to element
         with pytest.raises(ElementNotFoundError):
             button = page.get_button(by_id("submit-button"))
-            button.click()  # This should trigger the element finding and raise the error
+            button.click()  # This should trigger the error
 
         # Test timeout error propagation
         fake_driver.configure_failure_mode(
@@ -216,9 +219,8 @@ class TestCoreDriverPageIntegration:
 
         with pytest.raises(ElementNotFoundError):
             text_input = page.get_text_input(by_id("username-input"))
-            text_input.type_text(
-                "test"
-            )  # This should trigger the element finding and raise the error
+            # This should trigger the error
+            text_input.type_text("test")
 
     def test_multiple_page_objects_sharing_driver(self, fake_driver: FakeWebDriver):
         """Test multiple page objects sharing the same driver instance."""

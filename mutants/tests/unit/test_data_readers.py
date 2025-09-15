@@ -59,7 +59,7 @@ class TestValueConversion:
         """Test _convert_value handles various input types correctly."""
         result = _convert_value(input_value)
         assert result == expected_output
-        assert type(result) == type(expected_output)
+        assert isinstance(result, type(expected_output))
 
     def test_convert_value_when_non_string_input_expects_unchanged(self):
         """Test _convert_value returns non-string inputs unchanged."""
@@ -334,7 +334,7 @@ class TestLoadTestData:
         """Test that explicit format parameter is used."""
         mock_load_json.return_value = [{"test": "data"}]
 
-        result = load_test_data("test.txt", file_format="json")
+        _result = load_test_data("test.txt", file_format="json")
 
         mock_load_json.assert_called_once()
 
@@ -491,7 +491,10 @@ class TestDataReadersBranchCoverage:
     def test_load_test_data_when_json_invalid_type_expects_validation_error(
         self, mock_load_json
     ):
-        """Test that JSON with invalid type (not dict or list) raises ValidationError."""
+        """
+        Test that JSON with invalid type (not dict or list) raises
+        ValidationError.
+        """
         mock_load_json.return_value = "invalid_type"  # String instead of dict/list
 
         with pytest.raises(ValidationError) as exc_info:
@@ -503,7 +506,10 @@ class TestDataReadersBranchCoverage:
     def test_load_test_data_when_yaml_invalid_type_expects_validation_error(
         self, mock_load_yaml
     ):
-        """Test that YAML with invalid type (not dict or list) raises ValidationError."""
+        """
+        Test that YAML with invalid type (not dict or list) raises
+        ValidationError.
+        """
         mock_load_yaml.return_value = 42  # Integer instead of dict/list
 
         with pytest.raises(ValidationError) as exc_info:

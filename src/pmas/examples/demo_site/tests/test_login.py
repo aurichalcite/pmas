@@ -4,6 +4,7 @@ Example tests for SauceDemo login functionality demonstrating PMAS framework usa
 
 import pytest
 
+from ....core.errors import LoginError
 from ....testing.assertions import SoftAssertions
 from ..pages.login_page import SauceDemoLoginPage
 
@@ -57,7 +58,7 @@ class TestSauceDemoLogin:
         login_page.navigate_to_login()
 
         # Act & Assert
-        with pytest.raises(Exception) as exc_info:
+        with pytest.raises(LoginError) as exc_info:
             login_page.login_locked_out_user()
 
         assert "locked out" in str(exc_info.value).lower()
@@ -180,7 +181,7 @@ class TestSauceDemoLogin:
         if should_succeed:
             if username == "locked_out_user":
                 # Special case for locked out user
-                with pytest.raises(Exception):
+                with pytest.raises(LoginError):
                     login_page.login(username, password)
             else:
                 inventory_page = login_page.login(username, password)
@@ -188,7 +189,7 @@ class TestSauceDemoLogin:
                 assert "inventory.html" in inventory_page.current_url
         else:
             if username == "locked_out_user":
-                with pytest.raises(Exception):
+                with pytest.raises(LoginError):
                     login_page.login(username, password)
             else:
                 error_message = login_page.attempt_invalid_login(username, password)
