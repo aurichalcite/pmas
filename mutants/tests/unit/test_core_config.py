@@ -258,7 +258,7 @@ class TestMainConfig:
         with patch.dict(os.environ, env_vars, clear=False):
             # This would require actual implementation in Config class
             # For now, we test the concept with a mock
-            config = Config()
+            _config = Config()
             # In real implementation, this would read from environment
             # config = Config.from_environment()
             # assert config.browser.name == expected_browser
@@ -270,11 +270,11 @@ class TestMainConfig:
         """Test that Config validation catches invalid nested configurations."""
         # Test with invalid browser config
         with pytest.raises(ValueError):
-            invalid_browser = BrowserConfig(window_width=-100)
+            _invalid_browser = BrowserConfig(window_width=-100)
 
         # Test with invalid test config
         with pytest.raises(ValueError):
-            invalid_test = TestConfig(default_timeout=-5.0)
+            _invalid_test = TestConfig(default_timeout=-5.0)
 
     def test_config_immutability_concept(self):
         """Test that Config behaves as expected for immutability."""
@@ -282,7 +282,8 @@ class TestMainConfig:
         original_timeout = config.test.default_timeout
 
         # Modifying the config should not affect the original
-        # (This tests the concept - actual immutability would require frozen dataclasses)
+        # (This tests the concept - actual immutability would require
+        # frozen dataclasses)
         config.test.default_timeout = 999.0
         assert config.test.default_timeout == 999.0
         assert original_timeout != 999.0

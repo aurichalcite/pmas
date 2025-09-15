@@ -102,7 +102,10 @@ class TestSoftAssertions:
         assert soft._in_context is False
 
     def test_context_manager_exit_with_failures_raises_assertion_error(self):
-        """Test that context manager exit raises AssertionError when there are failures."""
+        """
+        Test that context manager exit raises AssertionError when there are
+        failures.
+        """
         with pytest.raises(AssertionError) as exc_info:
             with SoftAssertions() as soft:
                 soft.assert_equal(1, 2, "Numbers should be equal")
@@ -278,7 +281,10 @@ class TestSoftAssertions:
         assert "Third failure" in error_message
 
     def test_fail_fast_mode_raises_immediately(self):
-        """Test that fail_fast mode raises AssertionError immediately on first failure."""
+        """
+        Test that fail_fast mode raises AssertionError immediately on first
+        failure.
+        """
         with pytest.raises(AssertionError) as exc_info:
             with SoftAssertions(fail_fast=True) as soft:
                 soft.assert_equal(1, 2, "This should fail immediately")

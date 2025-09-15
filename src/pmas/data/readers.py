@@ -47,7 +47,7 @@ def load_csv(
         with open(file_path, encoding=encoding, newline="") as csvfile:
             if has_header:
                 reader = csv.DictReader(csvfile, delimiter=delimiter)
-                for row_num, row in enumerate(
+                for _row_num, row in enumerate(
                     reader, start=2
                 ):  # Start at 2 because header is row 1
                     # Convert empty strings to None and try to convert numeric values
@@ -63,7 +63,7 @@ def load_csv(
                 headers = [f"column_{i}" for i in range(len(next(reader)))]
                 csvfile.seek(0)  # Reset to beginning
 
-                for row_num, row in enumerate(reader, start=1):
+                for _row_num, row in enumerate(reader, start=1):
                     processed_row = {}
                     for i, value in enumerate(row):
                         key = headers[i] if i < len(headers) else f"column_{i}"

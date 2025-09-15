@@ -351,7 +351,9 @@ class TestBasePageAbstractMethods:
         assert result is True
 
     def test_base_page_when_not_implementing_abstract_method_expects_error(self):
-        """Test that BasePage cannot be instantiated without implementing abstract methods."""
+        """
+        Test that BasePage cannot be instantiated without implementing abstract methods.
+        """
         mock_driver = Mock()
 
         with pytest.raises(TypeError):

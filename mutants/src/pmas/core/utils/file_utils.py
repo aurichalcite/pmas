@@ -5,12 +5,13 @@ File and path utilities for the testing framework.
 import logging
 import shutil
 import tempfile
-from pathlib import Path
-
-logger = logging.getLogger(__name__)
 from collections.abc import Callable
 from inspect import signature as _mutmut_signature
+from pathlib import Path
 from typing import Annotated, ClassVar
+
+logger = logging.getLogger(__name__)
+
 
 MutantDict = Annotated[dict[str, Callable], "Mutant"]
 
@@ -2422,14 +2423,14 @@ def x_get_unique_filename__mutmut_orig(path: str | Path) -> Path:
     if not file_path.exists():
         return file_path
 
-    stem = file_path.stem
-    suffix = file_path.suffix
-    parent = file_path.parent
+    _stem = file_path.stem
+    _suffix = file_path.suffix
+    _parent = file_path.parent
 
     counter = 1
     while True:
-        new_name = f"{stem}_{counter}{suffix}"
-        new_path = parent / new_name
+        _new_name = f"{_stem}_{counter}{_suffix}"
+        new_path = _parent / _new_name
         if not new_path.exists():
             return new_path
         counter += 1
@@ -2449,9 +2450,9 @@ def x_get_unique_filename__mutmut_1(path: str | Path) -> Path:
     if not file_path.exists():
         return file_path
 
-    stem = file_path.stem
-    suffix = file_path.suffix
-    parent = file_path.parent
+    _stem = file_path.stem
+    _suffix = file_path.suffix
+    _parent = file_path.parent
 
     counter = 1
     while True:
@@ -2725,7 +2726,7 @@ def x_get_unique_filename__mutmut_11(path: str | Path) -> Path:
 
     counter = 1
     while True:
-        new_name = f"{stem}_{counter}{suffix}"
+        _new_name = f"{stem}_{counter}{suffix}"
         new_path = None
         if not new_path.exists():
             return new_path
@@ -2956,12 +2957,24 @@ class TemporaryDirectory:
         self.path: Path | None = ""
 
     xǁTemporaryDirectoryǁ__init____mutmut_mutants: ClassVar[MutantDict] = {
-        "xǁTemporaryDirectoryǁ__init____mutmut_1": xǁTemporaryDirectoryǁ__init____mutmut_1,
-        "xǁTemporaryDirectoryǁ__init____mutmut_2": xǁTemporaryDirectoryǁ__init____mutmut_2,
-        "xǁTemporaryDirectoryǁ__init____mutmut_3": xǁTemporaryDirectoryǁ__init____mutmut_3,
-        "xǁTemporaryDirectoryǁ__init____mutmut_4": xǁTemporaryDirectoryǁ__init____mutmut_4,
-        "xǁTemporaryDirectoryǁ__init____mutmut_5": xǁTemporaryDirectoryǁ__init____mutmut_5,
-        "xǁTemporaryDirectoryǁ__init____mutmut_6": xǁTemporaryDirectoryǁ__init____mutmut_6,
+        "xǁTemporaryDirectoryǁ__init____mutmut_1": (
+            xǁTemporaryDirectoryǁ__init____mutmut_1
+        ),
+        "xǁTemporaryDirectoryǁ__init____mutmut_2": (
+            xǁTemporaryDirectoryǁ__init____mutmut_2
+        ),
+        "xǁTemporaryDirectoryǁ__init____mutmut_3": (
+            xǁTemporaryDirectoryǁ__init____mutmut_3
+        ),
+        "xǁTemporaryDirectoryǁ__init____mutmut_4": (
+            xǁTemporaryDirectoryǁ__init____mutmut_4
+        ),
+        "xǁTemporaryDirectoryǁ__init____mutmut_5": (
+            xǁTemporaryDirectoryǁ__init____mutmut_5
+        ),
+        "xǁTemporaryDirectoryǁ__init____mutmut_6": (
+            xǁTemporaryDirectoryǁ__init____mutmut_6
+        ),
     }
 
     def __init__(self, *args, **kwargs):
@@ -3009,10 +3022,18 @@ class TemporaryDirectory:
         return self.path
 
     xǁTemporaryDirectoryǁ__enter____mutmut_mutants: ClassVar[MutantDict] = {
-        "xǁTemporaryDirectoryǁ__enter____mutmut_1": xǁTemporaryDirectoryǁ__enter____mutmut_1,
-        "xǁTemporaryDirectoryǁ__enter____mutmut_2": xǁTemporaryDirectoryǁ__enter____mutmut_2,
-        "xǁTemporaryDirectoryǁ__enter____mutmut_3": xǁTemporaryDirectoryǁ__enter____mutmut_3,
-        "xǁTemporaryDirectoryǁ__enter____mutmut_4": xǁTemporaryDirectoryǁ__enter____mutmut_4,
+        "xǁTemporaryDirectoryǁ__enter____mutmut_1": (
+            xǁTemporaryDirectoryǁ__enter____mutmut_1
+        ),
+        "xǁTemporaryDirectoryǁ__enter____mutmut_2": (
+            xǁTemporaryDirectoryǁ__enter____mutmut_2
+        ),
+        "xǁTemporaryDirectoryǁ__enter____mutmut_3": (
+            xǁTemporaryDirectoryǁ__enter____mutmut_3
+        ),
+        "xǁTemporaryDirectoryǁ__enter____mutmut_4": (
+            xǁTemporaryDirectoryǁ__enter____mutmut_4
+        ),
     }
 
     def __enter__(self, *args, **kwargs):
@@ -3072,10 +3093,18 @@ class TemporaryDirectory:
             logger.debug(None)
 
     xǁTemporaryDirectoryǁ__exit____mutmut_mutants: ClassVar[MutantDict] = {
-        "xǁTemporaryDirectoryǁ__exit____mutmut_1": xǁTemporaryDirectoryǁ__exit____mutmut_1,
-        "xǁTemporaryDirectoryǁ__exit____mutmut_2": xǁTemporaryDirectoryǁ__exit____mutmut_2,
-        "xǁTemporaryDirectoryǁ__exit____mutmut_3": xǁTemporaryDirectoryǁ__exit____mutmut_3,
-        "xǁTemporaryDirectoryǁ__exit____mutmut_4": xǁTemporaryDirectoryǁ__exit____mutmut_4,
+        "xǁTemporaryDirectoryǁ__exit____mutmut_1": (
+            xǁTemporaryDirectoryǁ__exit____mutmut_1
+        ),
+        "xǁTemporaryDirectoryǁ__exit____mutmut_2": (
+            xǁTemporaryDirectoryǁ__exit____mutmut_2
+        ),
+        "xǁTemporaryDirectoryǁ__exit____mutmut_3": (
+            xǁTemporaryDirectoryǁ__exit____mutmut_3
+        ),
+        "xǁTemporaryDirectoryǁ__exit____mutmut_4": (
+            xǁTemporaryDirectoryǁ__exit____mutmut_4
+        ),
     }
 
     def __exit__(self, *args, **kwargs):

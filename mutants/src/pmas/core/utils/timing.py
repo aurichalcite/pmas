@@ -4,13 +4,14 @@ Timing utilities for performance measurement and delays.
 
 import logging
 import time
+from collections.abc import Callable
 from contextlib import contextmanager
 from dataclasses import dataclass
-
-logger = logging.getLogger(__name__)
-from collections.abc import Callable
 from inspect import signature as _mutmut_signature
 from typing import Annotated, ClassVar
+
+logger = logging.getLogger(__name__)
+
 
 MutantDict = Annotated[dict[str, Callable], "Mutant"]
 
@@ -158,7 +159,7 @@ class Timer:
             raise ValueError("Timer not started")
 
         self.end_time = time.time()
-        duration = self.end_time - self.start_time
+        _duration = self.end_time - self.start_time
 
         result = TimingResult(
             name=self.name,
@@ -320,7 +321,7 @@ class Timer:
             raise ValueError("Timer not started")
 
         self.end_time = time.time()
-        duration = self.end_time - self.start_time
+        _duration = self.end_time - self.start_time
 
         result = None
 
@@ -555,8 +556,12 @@ class PerformanceTracker:
         self.active_timers: dict[str, Timer] = None
 
     xǁPerformanceTrackerǁ__init____mutmut_mutants: ClassVar[MutantDict] = {
-        "xǁPerformanceTrackerǁ__init____mutmut_1": xǁPerformanceTrackerǁ__init____mutmut_1,
-        "xǁPerformanceTrackerǁ__init____mutmut_2": xǁPerformanceTrackerǁ__init____mutmut_2,
+        "xǁPerformanceTrackerǁ__init____mutmut_1": (
+            xǁPerformanceTrackerǁ__init____mutmut_1
+        ),
+        "xǁPerformanceTrackerǁ__init____mutmut_2": (
+            xǁPerformanceTrackerǁ__init____mutmut_2
+        ),
     }
 
     def __init__(self, *args, **kwargs):
@@ -656,12 +661,24 @@ class PerformanceTracker:
         return timer
 
     xǁPerformanceTrackerǁstart_timer__mutmut_mutants: ClassVar[MutantDict] = {
-        "xǁPerformanceTrackerǁstart_timer__mutmut_1": xǁPerformanceTrackerǁstart_timer__mutmut_1,
-        "xǁPerformanceTrackerǁstart_timer__mutmut_2": xǁPerformanceTrackerǁstart_timer__mutmut_2,
-        "xǁPerformanceTrackerǁstart_timer__mutmut_3": xǁPerformanceTrackerǁstart_timer__mutmut_3,
-        "xǁPerformanceTrackerǁstart_timer__mutmut_4": xǁPerformanceTrackerǁstart_timer__mutmut_4,
-        "xǁPerformanceTrackerǁstart_timer__mutmut_5": xǁPerformanceTrackerǁstart_timer__mutmut_5,
-        "xǁPerformanceTrackerǁstart_timer__mutmut_6": xǁPerformanceTrackerǁstart_timer__mutmut_6,
+        "xǁPerformanceTrackerǁstart_timer__mutmut_1": (
+            xǁPerformanceTrackerǁstart_timer__mutmut_1
+        ),
+        "xǁPerformanceTrackerǁstart_timer__mutmut_2": (
+            xǁPerformanceTrackerǁstart_timer__mutmut_2
+        ),
+        "xǁPerformanceTrackerǁstart_timer__mutmut_3": (
+            xǁPerformanceTrackerǁstart_timer__mutmut_3
+        ),
+        "xǁPerformanceTrackerǁstart_timer__mutmut_4": (
+            xǁPerformanceTrackerǁstart_timer__mutmut_4
+        ),
+        "xǁPerformanceTrackerǁstart_timer__mutmut_5": (
+            xǁPerformanceTrackerǁstart_timer__mutmut_5
+        ),
+        "xǁPerformanceTrackerǁstart_timer__mutmut_6": (
+            xǁPerformanceTrackerǁstart_timer__mutmut_6
+        ),
     }
 
     def start_timer(self, *args, **kwargs):
@@ -805,14 +822,30 @@ class PerformanceTracker:
         return result
 
     xǁPerformanceTrackerǁstop_timer__mutmut_mutants: ClassVar[MutantDict] = {
-        "xǁPerformanceTrackerǁstop_timer__mutmut_1": xǁPerformanceTrackerǁstop_timer__mutmut_1,
-        "xǁPerformanceTrackerǁstop_timer__mutmut_2": xǁPerformanceTrackerǁstop_timer__mutmut_2,
-        "xǁPerformanceTrackerǁstop_timer__mutmut_3": xǁPerformanceTrackerǁstop_timer__mutmut_3,
-        "xǁPerformanceTrackerǁstop_timer__mutmut_4": xǁPerformanceTrackerǁstop_timer__mutmut_4,
-        "xǁPerformanceTrackerǁstop_timer__mutmut_5": xǁPerformanceTrackerǁstop_timer__mutmut_5,
-        "xǁPerformanceTrackerǁstop_timer__mutmut_6": xǁPerformanceTrackerǁstop_timer__mutmut_6,
-        "xǁPerformanceTrackerǁstop_timer__mutmut_7": xǁPerformanceTrackerǁstop_timer__mutmut_7,
-        "xǁPerformanceTrackerǁstop_timer__mutmut_8": xǁPerformanceTrackerǁstop_timer__mutmut_8,
+        "xǁPerformanceTrackerǁstop_timer__mutmut_1": (
+            xǁPerformanceTrackerǁstop_timer__mutmut_1
+        ),
+        "xǁPerformanceTrackerǁstop_timer__mutmut_2": (
+            xǁPerformanceTrackerǁstop_timer__mutmut_2
+        ),
+        "xǁPerformanceTrackerǁstop_timer__mutmut_3": (
+            xǁPerformanceTrackerǁstop_timer__mutmut_3
+        ),
+        "xǁPerformanceTrackerǁstop_timer__mutmut_4": (
+            xǁPerformanceTrackerǁstop_timer__mutmut_4
+        ),
+        "xǁPerformanceTrackerǁstop_timer__mutmut_5": (
+            xǁPerformanceTrackerǁstop_timer__mutmut_5
+        ),
+        "xǁPerformanceTrackerǁstop_timer__mutmut_6": (
+            xǁPerformanceTrackerǁstop_timer__mutmut_6
+        ),
+        "xǁPerformanceTrackerǁstop_timer__mutmut_7": (
+            xǁPerformanceTrackerǁstop_timer__mutmut_7
+        ),
+        "xǁPerformanceTrackerǁstop_timer__mutmut_8": (
+            xǁPerformanceTrackerǁstop_timer__mutmut_8
+        ),
     }
 
     def stop_timer(self, *args, **kwargs):
@@ -861,8 +894,12 @@ class PerformanceTracker:
         return [m for m in self.measurements if name_filter not in m.name]
 
     xǁPerformanceTrackerǁget_measurements__mutmut_mutants: ClassVar[MutantDict] = {
-        "xǁPerformanceTrackerǁget_measurements__mutmut_1": xǁPerformanceTrackerǁget_measurements__mutmut_1,
-        "xǁPerformanceTrackerǁget_measurements__mutmut_2": xǁPerformanceTrackerǁget_measurements__mutmut_2,
+        "xǁPerformanceTrackerǁget_measurements__mutmut_1": (
+            xǁPerformanceTrackerǁget_measurements__mutmut_1
+        ),
+        "xǁPerformanceTrackerǁget_measurements__mutmut_2": (
+            xǁPerformanceTrackerǁget_measurements__mutmut_2
+        ),
     }
 
     def get_measurements(self, *args, **kwargs):
@@ -949,13 +986,27 @@ class PerformanceTracker:
             return 0.0
         return sum(None) / len(measurements)
 
-    xǁPerformanceTrackerǁget_average_duration__mutmut_mutants: ClassVar[MutantDict] = {
-        "xǁPerformanceTrackerǁget_average_duration__mutmut_1": xǁPerformanceTrackerǁget_average_duration__mutmut_1,
-        "xǁPerformanceTrackerǁget_average_duration__mutmut_2": xǁPerformanceTrackerǁget_average_duration__mutmut_2,
-        "xǁPerformanceTrackerǁget_average_duration__mutmut_3": xǁPerformanceTrackerǁget_average_duration__mutmut_3,
-        "xǁPerformanceTrackerǁget_average_duration__mutmut_4": xǁPerformanceTrackerǁget_average_duration__mutmut_4,
-        "xǁPerformanceTrackerǁget_average_duration__mutmut_5": xǁPerformanceTrackerǁget_average_duration__mutmut_5,
-        "xǁPerformanceTrackerǁget_average_duration__mutmut_6": xǁPerformanceTrackerǁget_average_duration__mutmut_6,
+    xǁPerformanceTrackerǁget_average_duration__mutmut_mutants: ClassVar[
+        MutantDict
+    ] = {
+        "xǁPerformanceTrackerǁget_average_duration__mutmut_1": (
+            xǁPerformanceTrackerǁget_average_duration__mutmut_1
+        ),
+        "xǁPerformanceTrackerǁget_average_duration__mutmut_2": (
+            xǁPerformanceTrackerǁget_average_duration__mutmut_2
+        ),
+        "xǁPerformanceTrackerǁget_average_duration__mutmut_3": (
+            xǁPerformanceTrackerǁget_average_duration__mutmut_3
+        ),
+        "xǁPerformanceTrackerǁget_average_duration__mutmut_4": (
+            xǁPerformanceTrackerǁget_average_duration__mutmut_4
+        ),
+        "xǁPerformanceTrackerǁget_average_duration__mutmut_5": (
+            xǁPerformanceTrackerǁget_average_duration__mutmut_5
+        ),
+        "xǁPerformanceTrackerǁget_average_duration__mutmut_6": (
+            xǁPerformanceTrackerǁget_average_duration__mutmut_6
+        ),
     }
 
     def get_average_duration(self, *args, **kwargs):
@@ -1004,13 +1055,21 @@ class PerformanceTracker:
         self, name_filter: str | None = None
     ) -> float:
         """Get total duration for measurements."""
-        measurements = self.get_measurements(name_filter)
+        _measurements = self.get_measurements(name_filter)
         return sum(None)
 
-    xǁPerformanceTrackerǁget_total_duration__mutmut_mutants: ClassVar[MutantDict] = {
-        "xǁPerformanceTrackerǁget_total_duration__mutmut_1": xǁPerformanceTrackerǁget_total_duration__mutmut_1,
-        "xǁPerformanceTrackerǁget_total_duration__mutmut_2": xǁPerformanceTrackerǁget_total_duration__mutmut_2,
-        "xǁPerformanceTrackerǁget_total_duration__mutmut_3": xǁPerformanceTrackerǁget_total_duration__mutmut_3,
+    xǁPerformanceTrackerǁget_total_duration__mutmut_mutants: ClassVar[
+        MutantDict
+    ] = {
+        "xǁPerformanceTrackerǁget_total_duration__mutmut_1": (
+            xǁPerformanceTrackerǁget_total_duration__mutmut_1
+        ),
+        "xǁPerformanceTrackerǁget_total_duration__mutmut_2": (
+            xǁPerformanceTrackerǁget_total_duration__mutmut_2
+        ),
+        "xǁPerformanceTrackerǁget_total_duration__mutmut_3": (
+            xǁPerformanceTrackerǁget_total_duration__mutmut_3
+        ),
     }
 
     def get_total_duration(self, *args, **kwargs):
@@ -1454,28 +1513,72 @@ class PerformanceTracker:
         return "XX\nXX".join(lines)
 
     xǁPerformanceTrackerǁsummary__mutmut_mutants: ClassVar[MutantDict] = {
-        "xǁPerformanceTrackerǁsummary__mutmut_1": xǁPerformanceTrackerǁsummary__mutmut_1,
-        "xǁPerformanceTrackerǁsummary__mutmut_2": xǁPerformanceTrackerǁsummary__mutmut_2,
-        "xǁPerformanceTrackerǁsummary__mutmut_3": xǁPerformanceTrackerǁsummary__mutmut_3,
-        "xǁPerformanceTrackerǁsummary__mutmut_4": xǁPerformanceTrackerǁsummary__mutmut_4,
-        "xǁPerformanceTrackerǁsummary__mutmut_5": xǁPerformanceTrackerǁsummary__mutmut_5,
-        "xǁPerformanceTrackerǁsummary__mutmut_6": xǁPerformanceTrackerǁsummary__mutmut_6,
-        "xǁPerformanceTrackerǁsummary__mutmut_7": xǁPerformanceTrackerǁsummary__mutmut_7,
-        "xǁPerformanceTrackerǁsummary__mutmut_8": xǁPerformanceTrackerǁsummary__mutmut_8,
-        "xǁPerformanceTrackerǁsummary__mutmut_9": xǁPerformanceTrackerǁsummary__mutmut_9,
-        "xǁPerformanceTrackerǁsummary__mutmut_10": xǁPerformanceTrackerǁsummary__mutmut_10,
-        "xǁPerformanceTrackerǁsummary__mutmut_11": xǁPerformanceTrackerǁsummary__mutmut_11,
-        "xǁPerformanceTrackerǁsummary__mutmut_12": xǁPerformanceTrackerǁsummary__mutmut_12,
-        "xǁPerformanceTrackerǁsummary__mutmut_13": xǁPerformanceTrackerǁsummary__mutmut_13,
-        "xǁPerformanceTrackerǁsummary__mutmut_14": xǁPerformanceTrackerǁsummary__mutmut_14,
-        "xǁPerformanceTrackerǁsummary__mutmut_15": xǁPerformanceTrackerǁsummary__mutmut_15,
-        "xǁPerformanceTrackerǁsummary__mutmut_16": xǁPerformanceTrackerǁsummary__mutmut_16,
-        "xǁPerformanceTrackerǁsummary__mutmut_17": xǁPerformanceTrackerǁsummary__mutmut_17,
-        "xǁPerformanceTrackerǁsummary__mutmut_18": xǁPerformanceTrackerǁsummary__mutmut_18,
-        "xǁPerformanceTrackerǁsummary__mutmut_19": xǁPerformanceTrackerǁsummary__mutmut_19,
-        "xǁPerformanceTrackerǁsummary__mutmut_20": xǁPerformanceTrackerǁsummary__mutmut_20,
-        "xǁPerformanceTrackerǁsummary__mutmut_21": xǁPerformanceTrackerǁsummary__mutmut_21,
-        "xǁPerformanceTrackerǁsummary__mutmut_22": xǁPerformanceTrackerǁsummary__mutmut_22,
+        "xǁPerformanceTrackerǁsummary__mutmut_1": (
+            xǁPerformanceTrackerǁsummary__mutmut_1
+        ),
+        "xǁPerformanceTrackerǁsummary__mutmut_2": (
+            xǁPerformanceTrackerǁsummary__mutmut_2
+        ),
+        "xǁPerformanceTrackerǁsummary__mutmut_3": (
+            xǁPerformanceTrackerǁsummary__mutmut_3
+        ),
+        "xǁPerformanceTrackerǁsummary__mutmut_4": (
+            xǁPerformanceTrackerǁsummary__mutmut_4
+        ),
+        "xǁPerformanceTrackerǁsummary__mutmut_5": (
+            xǁPerformanceTrackerǁsummary__mutmut_5
+        ),
+        "xǁPerformanceTrackerǁsummary__mutmut_6": (
+            xǁPerformanceTrackerǁsummary__mutmut_6
+        ),
+        "xǁPerformanceTrackerǁsummary__mutmut_7": (
+            xǁPerformanceTrackerǁsummary__mutmut_7
+        ),
+        "xǁPerformanceTrackerǁsummary__mutmut_8": (
+            xǁPerformanceTrackerǁsummary__mutmut_8
+        ),
+        "xǁPerformanceTrackerǁsummary__mutmut_9": (
+            xǁPerformanceTrackerǁsummary__mutmut_9
+        ),
+        "xǁPerformanceTrackerǁsummary__mutmut_10": (
+            xǁPerformanceTrackerǁsummary__mutmut_10
+        ),
+        "xǁPerformanceTrackerǁsummary__mutmut_11": (
+            xǁPerformanceTrackerǁsummary__mutmut_11
+        ),
+        "xǁPerformanceTrackerǁsummary__mutmut_12": (
+            xǁPerformanceTrackerǁsummary__mutmut_12
+        ),
+        "xǁPerformanceTrackerǁsummary__mutmut_13": (
+            xǁPerformanceTrackerǁsummary__mutmut_13
+        ),
+        "xǁPerformanceTrackerǁsummary__mutmut_14": (
+            xǁPerformanceTrackerǁsummary__mutmut_14
+        ),
+        "xǁPerformanceTrackerǁsummary__mutmut_15": (
+            xǁPerformanceTrackerǁsummary__mutmut_15
+        ),
+        "xǁPerformanceTrackerǁsummary__mutmut_16": (
+            xǁPerformanceTrackerǁsummary__mutmut_16
+        ),
+        "xǁPerformanceTrackerǁsummary__mutmut_17": (
+            xǁPerformanceTrackerǁsummary__mutmut_17
+        ),
+        "xǁPerformanceTrackerǁsummary__mutmut_18": (
+            xǁPerformanceTrackerǁsummary__mutmut_18
+        ),
+        "xǁPerformanceTrackerǁsummary__mutmut_19": (
+            xǁPerformanceTrackerǁsummary__mutmut_19
+        ),
+        "xǁPerformanceTrackerǁsummary__mutmut_20": (
+            xǁPerformanceTrackerǁsummary__mutmut_20
+        ),
+        "xǁPerformanceTrackerǁsummary__mutmut_21": (
+            xǁPerformanceTrackerǁsummary__mutmut_21
+        ),
+        "xǁPerformanceTrackerǁsummary__mutmut_22": (
+            xǁPerformanceTrackerǁsummary__mutmut_22
+        ),
     }
 
     def summary(self, *args, **kwargs):

@@ -16,6 +16,7 @@ No external dependencies or network calls.
 import pytest
 from selenium.common.exceptions import (
     ElementNotInteractableException,
+    NoSuchElementException,
     WebDriverException,
 )
 
@@ -63,7 +64,7 @@ class FormPage(BasePage):
         try:
             error_element = self.driver.find_element("css", ".error-message")
             return error_element.text
-        except:
+        except NoSuchElementException:
             return ""
 
 

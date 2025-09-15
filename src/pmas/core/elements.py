@@ -4,7 +4,6 @@ Base abstractions for web elements with common interaction patterns.
 
 import logging
 import time
-from abc import ABC
 from typing import Any
 
 from selenium.common.exceptions import (
@@ -23,9 +22,9 @@ from .locators import Locator
 logger = logging.getLogger(__name__)
 
 
-class BaseElement(ABC):
+class BaseElement:
     """
-    Abstract base class for all web element wrappers.
+    Base class for all web element wrappers.
     Provides common functionality for element interaction with robust error handling.
     """
 

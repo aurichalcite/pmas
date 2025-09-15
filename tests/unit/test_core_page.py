@@ -133,7 +133,9 @@ class TestBasePageNavigation:
         assert mock_wait.call_count == 2
 
     @patch("pmas.core.page.WebDriverWait")
-    def test_wait_for_page_load_when_timeout_expects_page_load_error(self, mock_wait):
+    def test_wait_for_page_load_when_timeout_expects_page_load_error(
+        self, mock_wait
+    ):
         """Test wait_for_page_load raises PageLoadError on timeout."""
         mock_driver = Mock()
         mock_driver.title = "Wrong Title"
@@ -351,7 +353,7 @@ class TestBasePageAbstractMethods:
         assert result is True
 
     def test_base_page_when_not_implementing_abstract_method_expects_error(self):
-        """Test that BasePage cannot be instantiated without implementing abstract methods."""
+        """Test BasePage raises TypeError if abstract methods are not implemented."""
         mock_driver = Mock()
 
         with pytest.raises(TypeError):

@@ -59,7 +59,8 @@ def driver(
         driver_instance.set_script_timeout(config.webdriver.script_timeout)
 
         logger.info(
-            f"Created WebDriver: {config.browser.name} ({'headless' if config.browser.headless else 'headed'})"
+            f"Created WebDriver: {config.browser.name} "
+            f"({'headless' if config.browser.headless else 'headed'})"
         )
 
         yield driver_instance

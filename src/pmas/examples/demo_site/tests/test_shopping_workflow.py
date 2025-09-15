@@ -8,7 +8,10 @@ from ..pages.login_page import SauceDemoLoginPage
 
 
 class TestSauceDemoShoppingWorkflow:
-    """Test class demonstrating end-to-end shopping workflow testing with PMAS framework."""
+    """
+    Test class demonstrating end-to-end shopping workflow testing with PMAS
+    framework.
+    """
 
     def test_complete_shopping_workflow(self, driver, config):
         """Test complete shopping workflow from login to checkout completion."""

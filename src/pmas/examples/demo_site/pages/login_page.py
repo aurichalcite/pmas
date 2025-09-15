@@ -3,9 +3,15 @@ SauceDemo login page object demonstrating PMAS framework usage.
 """
 
 import logging
+from typing import TYPE_CHECKING
 
+from ....core.errors import LoginError
 from ....core.locators import by_class_name, by_css_selector, by_id
 from ....core.page import BasePage
+
+if TYPE_CHECKING:
+    from .inventory_page import SauceDemoInventoryPage
+
 
 logger = logging.getLogger(__name__)
 
@@ -58,40 +64,35 @@ class SauceDemoLoginPage(BasePage):
             Inventory page object if successful
 
         Raises:
-            Exception: If login fails
+            LoginError: If login fails
         """
         logger.info(f"Attempting SauceDemo login as: {username}")
 
-        try:
-            # Fill login form
-            username_field = self.get_text_input(self.USERNAME_FIELD)
-            password_field = self.get_text_input(self.PASSWORD_FIELD)
-            login_button = self.get_button(self.LOGIN_BUTTON)
+        # Fill login form
+        username_field = self.get_text_input(self.USERNAME_FIELD)
+        password_field = self.get_text_input(self.PASSWORD_FIELD)
+        login_button = self.get_button(self.LOGIN_BUTTON)
 
-            username_field.clear()
-            username_field.type_text(username)
+        username_field.clear()
+        username_field.type_text(username)
 
-            password_field.clear()
-            password_field.type_text(password)
+        password_field.clear()
+        password_field.type_text(password)
 
-            login_button.click()
+        login_button.click()
 
-            # Wait for page to load
-            self.wait_for_page_load()
+        # Wait for page to load
+        self.wait_for_page_load()
 
-            # Check for error messages
-            if self.is_error_displayed():
-                error_msg = self.get_error_message()
-                raise Exception(f"Login failed: {error_msg}")
+        # Check for error messages
+        if self.is_error_displayed():
+            error_msg = self.get_error_message()
+            raise LoginError(f"Login failed: {error_msg}")
 
-            # Import here to avoid circular imports
-            from .inventory_page import SauceDemoInventoryPage
+        # Import here to avoid circular imports
+        from .inventory_page import SauceDemoInventoryPage
 
-            return SauceDemoInventoryPage(self.driver, self.base_url, self.timeout)
-
-        except Exception as e:
-            logger.error(f"SauceDemo login error for user {username}: {e}")
-            raise
+        return SauceDemoInventoryPage(self.driver, self.base_url, self.timeout)
 
     def login_standard_user(self) -> "SauceDemoInventoryPage":
         """Login as standard user."""
@@ -102,7 +103,7 @@ class SauceDemoLoginPage(BasePage):
         Attempt to login as locked out user (should fail).
 
         Raises:
-            Exception: Always, as this user is locked out
+            LoginError: Always, as this user is locked out
         """
         self.login("locked_out_user", "secret_sauce")
 

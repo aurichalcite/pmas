@@ -55,7 +55,10 @@ class TestRealBrowserSmoke:
         assert hasattr(real_driver, "quit")
 
         # Test basic navigation to a data URL (no network required)
-        test_url = "data:text/html,<html><head><title>PMAS Test Page</title></head><body><h1>Test</h1></body></html>"
+        test_url = (
+            "data:text/html,<html><head><title>PMAS Test Page</title></head>"
+            "<body><h1>Test</h1></body></html>"
+        )
         real_driver.get(test_url)
 
         # Verify navigation worked
@@ -145,7 +148,10 @@ class TestRealBrowserSmoke:
                 drivers.append(driver)
 
                 # Test each driver independently
-                test_url = f"data:text/html,<html><head><title>Driver {i}</title></head></html>"
+                test_url = (
+                    f"data:text/html,<html><head><title>Driver {i}</title></head>"
+                    f"</html>"
+                )
                 driver.get(test_url)
                 assert f"Driver {i}" in driver.title
 

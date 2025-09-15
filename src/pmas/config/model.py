@@ -164,16 +164,20 @@ class CredentialsConfig:
             import warnings
 
             warnings.warn(
-                "Password appears to be hardcoded. Consider using environment variables.",
+                "Password appears to be hardcoded. "
+                "Consider using environment variables.",
                 UserWarning,
+                stacklevel=2,
             )
 
         if self.api_key and not self._is_from_env_var(self.api_key):
             import warnings
 
             warnings.warn(
-                "API key appears to be hardcoded. Consider using environment variables.",
+                "API key appears to be hardcoded. "
+                "Consider using environment variables.",
                 UserWarning,
+                stacklevel=2,
             )
 
     @staticmethod
@@ -250,7 +254,9 @@ class Config:
             import warnings
 
             warnings.warn(
-                "Screenshots may not work properly in headless mode", UserWarning
+                "Screenshots may not work properly in headless mode",
+                UserWarning,
+                stacklevel=2,
             )
 
         return errors

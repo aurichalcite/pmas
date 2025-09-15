@@ -124,7 +124,8 @@ class FlightPlanAdapter:
             Dictionary with creation results
         """
         logger.info(
-            f"Creating flight plan: {flight_data.tail_number} from {flight_data.departure} to {flight_data.arrival}"
+            f"Creating flight plan: {flight_data.tail_number} "
+            f"from {flight_data.departure} to {flight_data.arrival}"
         )
 
         try:
@@ -386,7 +387,8 @@ class AviationWorkflowOrchestrator:
                 )
 
             logger.info(
-                f"Workflow completed successfully. Steps: {workflow_results['steps_completed']}"
+                "Workflow completed successfully. "
+                f"Steps: {workflow_results['steps_completed']}"
             )
             return workflow_results
 

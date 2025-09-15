@@ -239,7 +239,8 @@ class LoginPage(BaseAviationPage):
         # Verify the logged user matches what we expected
         if username != logged_user:
             self.add_error_text(
-                f"Landing page has wrong username [{logged_user}], expected [{username}]"
+                f"Landing page has wrong username [{logged_user}], "
+                f"expected [{username}]"
             )
 
         # Return the appropriate page object based on the landing page

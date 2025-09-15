@@ -3,8 +3,9 @@ WebDriver factory and protocol abstraction to decouple from Selenium specifics.
 """
 
 import logging
+from collections.abc import Callable
 from pathlib import Path
-from typing import Any, Protocol
+from typing import Annotated, Any, Protocol
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
@@ -18,8 +19,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from .errors import ConfigurationError, DriverError
 
 logger = logging.getLogger(__name__)
-from collections.abc import Callable
-from typing import Annotated
+
 
 MutantDict = Annotated[dict[str, Callable], "Mutant"]
 
